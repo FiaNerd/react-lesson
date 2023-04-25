@@ -14,6 +14,8 @@ const App = () => {
     // Array destructer 
     const [ msg, setMsg ] = useState<string>("Hi you, im't stateful!")
     const [ clicks, setClicks ] = useState<number>(0)
+    
+   
 
     // Behöver sätta en Array of Post
     const [ post, setPost ] = useState<Post[]>([
@@ -28,13 +30,22 @@ const App = () => {
     // ]) // Det är helt ok med vanliga variabler om man inte vill att dem ska överleva rendeingarna
 
 
+    const handleBtnClick = () => {
+        setClicks(clicks + 1)
+    }
 
     // let msg = 'Welcome to my application'
     // console.log(msg);
 
-    const handleBtnClick = () => {
-        setClicks(clicks + 1)
+
+
+    const [ salary, setSalary ] = useState(10)
+
+    const handleChangeSalary = (amount: number) => {
+        setSalary(salary + amount)
+
     }
+
 
   return (
     <div className="App">
@@ -45,6 +56,33 @@ const App = () => {
         <button className='btn btn-success btn-lg' onClick={handleBtnClick}> Click Me!</button>
 
         <button className='btn btn-warning btn-lg' onClick={() => {setMsg("Hey you")}}> Hey you!</button>
+
+        <hr/>
+        <p>Salary per hour: {salary} &euro;</p>
+
+			<div className="buttons">
+				<div className="mb-1">
+					<button
+						className="btn btn-primary btn-lg"
+					onClick={() => handleChangeSalary (+ 1)}>Raise 1 &euro; 🤑</button>
+					<button
+						className="btn btn-warning btn-lg"
+                        onClick={() => handleChangeSalary( - 1)}>Decrease 1 &euro; 😢</button>
+				</div>
+
+				<div className="mb-1">
+					<button
+						className="btn btn-success btn-lg"
+                        onClick={() => handleChangeSalary( + 5)}>Raise 5 &euro; 🤑🤑🤑</button>
+					<button
+						className="btn btn-danger btn-lg"
+                        onClick={() => handleChangeSalary( - 5)}>Decrease 5 &euro; 😢😢😢</button>
+				</div>
+			</div>
+
+			<hr />
+
+        <hr />
 
         <h2>Post</h2>
         <ul>
