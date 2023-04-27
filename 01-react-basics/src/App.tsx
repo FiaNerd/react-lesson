@@ -1,6 +1,8 @@
 // Allt i react är uppbbyggt med HOOKS
 import { useState } from 'react'
 import './App.css'
+import ClickCounter from './components/ClickCounter'
+import Salary from './components/Salary'
 
 type Post = {
     // id: number,
@@ -13,8 +15,7 @@ const App = () => {
     // Stateful variabel
     // Array destructer 
     const [ msg, setMsg ] = useState<string>("Hi you, im't stateful!")
-    const [ clicks, setClicks ] = useState<number>(0)
-    const [ showSalary, setShowSalary ] = useState<boolean>(false)
+
     
    
     // Behöver sätta en Array of Post
@@ -48,80 +49,24 @@ const App = () => {
         console.log("You have delete: ", postToDelete.title);
     }
 
-    const handleBtnClick = () => {
-
-        // Innan så när vi skickade in clicks + 1 blev det 0 + 1, så sätt klickat kallades på talet 1. Men när man skickar in en funktion så kommer den att köra denna funktionen, så det nuvarande värdet kommer att ändras vid varje funktion. Den väntar på funktionen retur värde. Det blir som en kö till state uppdateringen. 
-        setClicks((prevState) => {return prevState + 1}) // prevState = 0, reurn 1
-        setClicks((prevState) => {return prevState + 1}) // prevState = 1, reurn 2
-
-        // Så behöver prevState för att kunna göra dubbla klick
-       // setClicks(clicks + 1)
-        //setClicks(clicks + 1) // För att du har kopierat två cklikc, så gör det inte att det blir fler klick pper gång, detta för att den inte har hunnit uppdateras, så blir fortfarande bara ett klick
-    }
-
     // let msg = 'Welcome to my application'
     // console.log(msg);
 
 
-    const buttonSalary = showSalary ? 'Hide salary' :  'Show salary';
-
-    const [ salary, setSalary ] = useState(10)
-
-    const handleChangeSalary = (amount: number) => {
-        if(salary + amount < 5){
-            setSalary(5)
-            return
-        }
-
-        setSalary(salary + amount)
-    }
-
+  
 
   return (
     <div className="App">
         <h1>React basic</h1>
-        <h2>{msg}</h2>
-        <p>U have cliked the button {clicks} times </p>
-
-        <button className='btn btn-success btn-lg' onClick={handleBtnClick}> Click Me!</button>
+       
+        <ClickCounter /> 
 
         <button className='btn btn-warning btn-lg' onClick={() => {setMsg("Hey you")}}> Hey you!</button>
 
         <hr/>
-        <button className='btn btn-primary' onClick={() => setShowSalary(!showSalary)}>{buttonSalary}</button>
+      
+        <Salary />
 
-        { showSalary && (
-            <>
-                <h2>Salary</h2>
-
-                <p>Salary per hour: {salary} &euro;</p>
-
-                { salary < 10 && (
-                    <div className="alert alert-warning">You got very low payed</div>
-                )}
-        
-                    <div className="buttons">
-                        <div className="mb-1">
-                            <button
-                                className="btn btn-primary btn-lg"
-                            onClick={() => handleChangeSalary (+ 1)}>Raise 1 &euro; 🤑</button>
-                            <button
-                                className="btn btn-warning btn-lg"
-                                onClick={() => handleChangeSalary( - 1)}>Decrease 1 &euro; 😢</button>
-                        </div>
-        
-                        <div className="mb-1">
-                            <button
-                                className="btn btn-success btn-lg"
-                                onClick={() => handleChangeSalary( + 5)}>Raise 5 &euro; 🤑🤑🤑</button>
-                            <button
-                                className="btn btn-danger btn-lg"
-                                onClick={() => handleChangeSalary( - 5)}>Decrease 5 &euro; 😢😢😢</button>
-                        </div>
-                    </div>
-                </>
-            )
-        }
 
         <hr />
 
@@ -143,7 +88,9 @@ const App = () => {
         }
         
         </ul>
-        ): <h3>No post yet</h3>}
+        ) : (
+            <h3>No post yet</h3>
+        )}
     </div>
   )
 }
