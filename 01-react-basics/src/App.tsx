@@ -18,7 +18,7 @@ const App = () => {
     
    
     // Behöver sätta en Array of Post
-    const [ post, setPost ] = useState<Post[]>([
+    const [ posts, setPosts ] = useState<Post[]>([
         { title: "React rocks 🤘🏻", likes: 1337 },
         { title: "JSX rocks even more 🤘🏻", likes: 999 },
         { title: "Got state?", likes: 1337 },
@@ -30,6 +30,14 @@ const App = () => {
     //     {id: 3, title: "Got state?", likes: 1337},
     // ]) // Det är helt ok med vanliga variabler om man inte vill att dem ska överleva rendeingarna
 
+    // Hittar rätt post när man klickar på en post.. så när man klicjar på en post.. så hittar den rätt post
+    const handleAddLike = (post:Post) => {
+        post.likes++ // Ökar likes med 1
+        console.log(post.likes);
+
+        setPosts([...posts]); // Behöver skapa en ny array för att kunna skriva ut det i browsern, så kommer inte uppdateras om man endast gör setPosts(posts), måste göra en array desturcturing för att kunna uppdatera och rednera om dem efter varje like ändring. Om man sätter post så fattar inte React att den ska uppdateras, det som öagras i variabeln i post är egentligen bara en genväg till objektet. Den pekar på samma objekt, så man ändrar aldrig den, om man skapar en ny array och sprider ut post till den, så det som lagras i new post är en pekare som pekar på ett annat objekt, så nu pekar man på ett annat objekt så renderar den om appen, så ser React det och skriver om det. Varje gång man likar så blir posten en helt ny lista. Men det är fortfarand samma objekt. För att React ska fatta att det har skett en förändring så behöver man ändra staten på något sätt 
+        console.log('Wabt to add like to post', post);
+    }
 
     const handleBtnClick = () => {
 
@@ -110,9 +118,14 @@ const App = () => {
 
         <h2>Post</h2>
         <ul>
-            { post.map( (post, index) => (
+            { posts.map( (posts, index) => (
                 //Måste skriva när du har lista av array och ska mappa över så måset det finns en key (nucker). När man kör map så måste det fösta elementet i ha en key: Så den första föräldren inut map()
-            <li key={index}>{post.title} ({post.likes})</li>
+            <li key={index}>{posts.title} ({posts.likes})
+            <button 
+            className='btn btn-success btn-sm ms-4'
+            onClick={() => handleAddLike(posts)} //Hittar Rätt post när man klickar
+            >🤍</button>
+            </li>
             ))
          }
         </ul>
