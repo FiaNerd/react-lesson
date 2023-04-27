@@ -14,22 +14,17 @@ const App = () => {
 
     // Stateful variabel
     // Array destructer 
-    const [ msg, setMsg ] = useState<string>("Hi you, im't stateful!")
-
-    
-   
     // Behöver sätta en Array of Post
     const [ posts, setPosts ] = useState<Post[]>([
         { title: "React rocks 🤘🏻", likes: 1337 },
         { title: "JSX rocks even more 🤘🏻", likes: 999 },
         { title: "Got state?", likes: 1337 },
     ]) // Det är helt ok med vanliga variabler om man inte vill att dem ska överleva rendeingarna
+    const [ msg, setMsg ] = useState<string>("Hi you, i'm stateful!")
 
-    // const [ post, setPost ] = useState<Post[]>([
-    //     {id: 1, title: "React rocks 🤘🏻", likes: 1337},
-    //     {id: 2, title: "JSX rocks even more 🤘🏻", likes: 999},
-    //     {id: 3, title: "Got state?", likes: 1337},
-    // ]) // Det är helt ok med vanliga variabler om man inte vill att dem ska överleva rendeingarna
+    // input State
+    const [ newPostTitle, setNewPostTitle] = useState<string>("")
+
 
     // Hittar rätt post när man klickar på en post.. så när man klicjar på en post.. så hittar den rätt post
     const handleAddLike = (post:Post) => {
@@ -49,15 +44,30 @@ const App = () => {
         console.log("You have delete: ", postToDelete.title);
     }
 
-    // let msg = 'Welcome to my application'
-    // console.log(msg);
+   
+    const handleFormSubmit = (e: React.FormEvent) => {
+        // Strop form from submitting
+        e.preventDefault()
 
+        // Add a nwe post to be post state
+        const newPost: Post = { 
+            title: newPostTitle,
+            likes: 0
+        }
+
+        // Måste skapa en ny post och göra en spread, så måste göra en ny array när du ska göra en post
+        setPosts([...posts, newPost])
+
+        //Clear a newPostTitle state
+        setNewPostTitle("")
+    }
 
   
 
   return (
     <div className="App">
         <h1>React basic</h1>
+        <h2>{msg}</h2>
        
         <ClickCounter /> 
 
@@ -67,10 +77,33 @@ const App = () => {
       
         <Salary />
 
-
         <hr />
 
         <h2>Post</h2>
+
+        <form onSubmit={handleFormSubmit}>
+            <div className='input-group mb-3'>
+                <input 
+                    type="text" 
+                    className='form-control' 
+                    placeholder='Post title'
+                    onChange={(e) => setNewPostTitle(e.target.value)} // Denna körs för varje ändring som görs. 
+                    value={newPostTitle}
+                    required
+                    />
+                <button 
+                    type='submit' 
+                    className='btn btn-primary bg-white text-black'
+                    >
+                        Create
+                </button>
+                { newPostTitle.length > 0 && newPostTitle.length < 5 && (
+                    <div className="form-text text-warning d-block">Title has to be at leats 5 chars</div>
+                )
+
+                }
+            </div>
+        </form>
 
     { posts.length > 0  ? (
         <ul>
