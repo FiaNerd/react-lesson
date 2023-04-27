@@ -14,9 +14,9 @@ const App = () => {
     // Array destructer 
     const [ msg, setMsg ] = useState<string>("Hi you, im't stateful!")
     const [ clicks, setClicks ] = useState<number>(0)
+    const [ showSalary, setShowSalary ] = useState<boolean>(false)
     
    
-
     // Behöver sätta en Array of Post
     const [ post, setPost ] = useState<Post[]>([
         { title: "React rocks 🤘🏻", likes: 1337 },
@@ -37,7 +37,7 @@ const App = () => {
         setClicks((prevState) => {return prevState + 1}) // prevState = 0, reurn 1
         setClicks((prevState) => {return prevState + 1}) // prevState = 1, reurn 2
 
-        // Så behöver prevState för att kunna göra dubbelt
+        // Så behöver prevState för att kunna göra dubbla klick
        // setClicks(clicks + 1)
         //setClicks(clicks + 1) // För att du har kopierat två cklikc, så gör det inte att det blir fler klick pper gång, detta för att den inte har hunnit uppdateras, så blir fortfarande bara ett klick
     }
@@ -46,6 +46,7 @@ const App = () => {
     // console.log(msg);
 
 
+    const buttonSalary = showSalary ? 'Hide salary' :  'Show salary';
 
     const [ salary, setSalary ] = useState(10)
 
@@ -70,32 +71,40 @@ const App = () => {
         <button className='btn btn-warning btn-lg' onClick={() => {setMsg("Hey you")}}> Hey you!</button>
 
         <hr/>
-        <p>Salary per hour: {salary} &euro;</p>
-        { salary < 10 && (
-            <div className="alert alert-warning">You got very low paied</div>
-        )}
+        <button className='btn btn-primary' onClick={() => setShowSalary(!showSalary)}>{buttonSalary}</button>
 
-			<div className="buttons">
-				<div className="mb-1">
-					<button
-						className="btn btn-primary btn-lg"
-					onClick={() => handleChangeSalary (+ 1)}>Raise 1 &euro; 🤑</button>
-					<button
-						className="btn btn-warning btn-lg"
-                        onClick={() => handleChangeSalary( - 1)}>Decrease 1 &euro; 😢</button>
-				</div>
+        { showSalary && (
+            <>
+                <h2>Salary</h2>
 
-				<div className="mb-1">
-					<button
-						className="btn btn-success btn-lg"
-                        onClick={() => handleChangeSalary( + 5)}>Raise 5 &euro; 🤑🤑🤑</button>
-					<button
-						className="btn btn-danger btn-lg"
-                        onClick={() => handleChangeSalary( - 5)}>Decrease 5 &euro; 😢😢😢</button>
-				</div>
-			</div>
+                <p>Salary per hour: {salary} &euro;</p>
 
-			<hr />
+                { salary < 10 && (
+                    <div className="alert alert-warning">You got very low payed</div>
+                )}
+        
+                    <div className="buttons">
+                        <div className="mb-1">
+                            <button
+                                className="btn btn-primary btn-lg"
+                            onClick={() => handleChangeSalary (+ 1)}>Raise 1 &euro; 🤑</button>
+                            <button
+                                className="btn btn-warning btn-lg"
+                                onClick={() => handleChangeSalary( - 1)}>Decrease 1 &euro; 😢</button>
+                        </div>
+        
+                        <div className="mb-1">
+                            <button
+                                className="btn btn-success btn-lg"
+                                onClick={() => handleChangeSalary( + 5)}>Raise 5 &euro; 🤑🤑🤑</button>
+                            <button
+                                className="btn btn-danger btn-lg"
+                                onClick={() => handleChangeSalary( - 5)}>Decrease 5 &euro; 😢😢😢</button>
+                        </div>
+                    </div>
+                </>
+            )
+        }
 
         <hr />
 
