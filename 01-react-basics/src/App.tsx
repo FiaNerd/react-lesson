@@ -20,6 +20,7 @@ const App = () => {
         { title: "JSX rocks even more 🤘🏻", likes: 999 },
         { title: "Got state?", likes: 1337 },
     ]) // Det är helt ok med vanliga variabler om man inte vill att dem ska överleva rendeingarna
+    
     const [ msg, setMsg ] = useState<string>("Hi you, i'm stateful!")
 
     // input State
