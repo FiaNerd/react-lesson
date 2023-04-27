@@ -41,11 +41,13 @@ const App = () => {
 
 
     const handleDeleteLikes = (post: Post) => {
-        setPosts(posts.filter(item => item.title !== post.title))
+        // setPosts(posts.filter(item => item.title !== post.title))
+        setPosts([...posts.filter(item => item.title !== post.title)])
 
         console.log(post.title);
     }
       
+    const postEmpty = posts ? 'No posts': 'POST empty' 
 
     const handleBtnClick = () => {
 
@@ -125,19 +127,25 @@ const App = () => {
         <hr />
 
         <h2>Post</h2>
+
+    { posts.length > 0  ? (
+        
         <ul>
             { posts.map( (posts, index) => (
                 //Måste skriva när du har lista av array och ska mappa över så måset det finns en key (nucker). När man kör map så måste det fösta elementet i ha en key: Så den första föräldren inut map()
-            <li key={index}>{posts.title} ({posts.likes})
+         <li key={index}>{ posts.title} ({posts.likes} {postEmpty})
             <button 
             className='btn btn-success btn-sm ms-4'
             onClick={() => handleAddLike(posts)} //Hittar Rätt post när man klickar
             >🤍</button>
             <button className='btn btn-danger btn-sm ms-4' onClick={() => handleDeleteLikes(posts) }>🗑️</button>
             </li>
+            
             ))
-         }
+        }
+        
         </ul>
+        ): <h2>No post yet!!</h2>}
     </div>
   )
 }
