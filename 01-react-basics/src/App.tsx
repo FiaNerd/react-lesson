@@ -42,8 +42,12 @@ const App = () => {
     const [ salary, setSalary ] = useState(10)
 
     const handleChangeSalary = (amount: number) => {
-        setSalary(salary + amount)
+        if(salary + amount < 5){
+            setSalary(5)
+            return
+        }
 
+        setSalary(salary + amount)
     }
 
 
@@ -59,6 +63,9 @@ const App = () => {
 
         <hr/>
         <p>Salary per hour: {salary} &euro;</p>
+        { salary < 10 && (
+            <div className="alert alert-warning">You got very low paied</div>
+        )}
 
 			<div className="buttons">
 				<div className="mb-1">
