@@ -39,6 +39,14 @@ const App = () => {
         console.log('Wabt to add like to post', post);
     }
 
+
+    const handleDeleteLikes = (post: Post) => {
+        setPosts(posts.filter(item => item.title !== post.title))
+
+        console.log(post.title);
+    }
+      
+
     const handleBtnClick = () => {
 
         // Innan så när vi skickade in clicks + 1 blev det 0 + 1, så sätt klickat kallades på talet 1. Men när man skickar in en funktion så kommer den att köra denna funktionen, så det nuvarande värdet kommer att ändras vid varje funktion. Den väntar på funktionen retur värde. Det blir som en kö till state uppdateringen. 
@@ -125,6 +133,7 @@ const App = () => {
             className='btn btn-success btn-sm ms-4'
             onClick={() => handleAddLike(posts)} //Hittar Rätt post när man klickar
             >🤍</button>
+            <button className='btn btn-danger btn-sm ms-4' onClick={() => handleDeleteLikes(posts) }>🗑️</button>
             </li>
             ))
          }
