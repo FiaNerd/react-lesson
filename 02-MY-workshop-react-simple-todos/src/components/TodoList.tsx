@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import style from 'index.css'
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { FormControl, InputLabel, OutlinedInput  } from '@mui/material';
@@ -17,7 +17,6 @@ const TodoList = () => {
     const handleSubmitTodo = (e: React.FormEvent) => {
         e.preventDefault();
 
-
         setTodos((postNewTodo) => [
             ...postNewTodo,
             {
@@ -28,6 +27,22 @@ const TodoList = () => {
 
         setNewTodo("")
     }
+
+    // const handleClick = (index: number) => (e: React.MouseEvent<HTMLLIElement>) => {
+    //     e.preventDefault()
+    //     const newTodos = [...todos]
+    //     newTodos[index].completed = !newTodos[index].completed;
+    //     setTodos(newTodos)
+    //   };
+
+    const handleClick = (index: number) => (e: React.MouseEvent<HTMLLIElement>) => {
+        e.preventDefault()
+        setTodos(todos.map((todo, i) => {
+            return i === index ? { ...todo, completed: !todo.completed } : todo;
+
+        }));
+      };
+      
 
     return(
       <div>
@@ -57,7 +72,11 @@ const TodoList = () => {
     {todos.length > 0 ? (
         <ul>
             {todos.map((item, index) => (
-            <li key={index}>{item.title} - {item.completed ? 'Completed' : 'Not Completed'}</li>
+                <li className={item.completed ? "strike": ""} key={index}
+                onClick={handleClick(index)}
+                >
+                    {item.title} - {item.completed ? 'Completed' : 'Not Completed'} 
+                </li>
             ))}
         </ul>
 ) : ('Your list is empty. Nothing ToDo?')}
