@@ -13,7 +13,16 @@ const TodoList = () => {
     const [ todos, setTodos] = useState<Todo[]>([])
     const [ newTodo, setNewTodo] = useState<string>("")
 
+    const totalTask = todos.length;
+    const unCompleted = todos.filter(todo => todo.completed === false);
+    const completed = todos.filter(todo => todo.completed === true);
 
+    console.log("Total", totalTask)
+    console.log("UnCompleted", unCompleted)
+    console.log("Completed", completed)
+
+
+console.log(todos);
     const handleSubmitTodo = (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -37,9 +46,9 @@ const TodoList = () => {
 
     const handleClick = (index: number) => (e: React.MouseEvent<HTMLLIElement>) => {
         e.preventDefault()
+        
         setTodos(todos.map((todo, i) => {
             return i === index ? { ...todo, completed: !todo.completed } : todo;
-
         }));
       };
       
@@ -69,6 +78,8 @@ const TodoList = () => {
     </Box>
 
     <h2>Your list</h2>
+
+    <p>of total {totalTask}</p>
     {todos.length > 0 ? (
         <ul>
             {todos.map((item, index) => (
