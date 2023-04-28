@@ -14,13 +14,7 @@ const TodoList = () => {
     const [ newTodo, setNewTodo] = useState<string>("")
 
     const totalTask = todos.length;
-    const unCompleted = todos.filter(todo => todo.completed === false);
     const completed = todos.filter(todo => todo.completed === true);
-
-    console.log("Total", totalTask)
-    console.log("UnCompleted", unCompleted)
-    console.log("Completed", completed)
-
 
 console.log(todos);
     const handleSubmitTodo = (e: React.FormEvent) => {
@@ -77,9 +71,10 @@ console.log(todos);
       </FormControl>
     </Box>
 
+    <p> You have completed {completed.length} of total {totalTask}</p>
+
     <h2>Your list</h2>
 
-    <p>of total {totalTask}</p>
     {todos.length > 0 ? (
         <ul>
             {todos.map((item, index) => (

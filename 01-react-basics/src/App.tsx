@@ -3,6 +3,7 @@ import { useState } from 'react'
 import './App.css'
 import ClickCounter from './components/ClickCounter'
 import Salary from './components/Salary'
+// import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 type Post = {
     // id: number,
