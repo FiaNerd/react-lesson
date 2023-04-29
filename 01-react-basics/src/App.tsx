@@ -3,6 +3,7 @@ import { useState } from 'react'
 import './App.css'
 import ClickCounter from './components/ClickCounter'
 import Salary from './components/Salary'
+// import DeleteSweepTwoToneIcon from '@mui/icons-material/DeleteSweepTwoTone';
 // import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 type Post = {
@@ -39,7 +40,7 @@ const App = () => {
 
 
     const handleDeletePost = (postToDelete: Post) => {
-        // setPosts(posts.filter(item => item.title !== post.title)) // finns ingen anlednign att göra post.title för att då kommer alla med samma title raderas. Vil vill endast radera det vi klickar på oavsett om det är två som har samma titel
+        // setPosts(posts.filter(item => item.title !== post.title)) // finns ingen anlednign att göra post.title för att då kommer alla med samma title raderas. Vi vill endast radera det vi klickar på oavsett om det är två som har samma titel
         // setPosts(posts.filter(postItem => postItem !== postToDelete))
         setPosts(prevPosts => prevPosts.filter(deleteItem => deleteItem !== postToDelete )) // Det är gamla post man filtrerar
 
@@ -111,16 +112,18 @@ const App = () => {
         <ul>
             { posts.map( (post, index) => (
                 //Måste skriva när du har lista av array och ska mappa över så måset det finns en key (nucker). När man kör map så måste det fösta elementet i ha en key: Så den första föräldren inut map()
-         <li key={index}>{ post.title} ({post.likes})
+         <li key={index}>
+            { post.title} ({post.likes})
+            
             <button 
             className='btn btn-success btn-sm ms-4'
             onClick={() => handleAddLike(post)} //Hittar Rätt post när man klickar
             >🤍</button>
+
             <button className='btn btn-danger btn-sm ms-4' onClick={() => handleDeletePost(post) }>🗑️</button>
             </li>
-            
-            ))
-        }
+        ))
+    }
         
         </ul>
         ) : (

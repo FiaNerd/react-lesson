@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import style from 'index.css'
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { FormControl, InputLabel, OutlinedInput  } from '@mui/material';
+import { FormControl, InputLabel, OutlinedInput, Grid, Typography  } from '@mui/material';
+import DeleteSweepTwoToneIcon from '@mui/icons-material/DeleteSweepTwoTone';
+
 
 type Todo = {
     title: string,
@@ -14,9 +16,9 @@ const TodoList = () => {
     const [ newTodo, setNewTodo] = useState<string>("")
 
     const totalTask = todos.length;
-    const completed = todos.filter(todo => todo.completed === true);
+    const completed = todos.filter(todo => todo.completed).length;
 
-console.log(todos);
+
     const handleSubmitTodo = (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -30,6 +32,7 @@ console.log(todos);
 
         setNewTodo("")
     }
+
 
     // const handleClick = (index: number) => (e: React.MouseEvent<HTMLLIElement>) => {
     //     e.preventDefault()
@@ -46,9 +49,15 @@ console.log(todos);
         }));
       };
       
+      const deleteTask = (deleteTodo: Todo) => {
+       setTodos(deleteTaskItem => deleteTaskItem.filter(task => task !== deleteTodo))
+
+       console.log(deleteTodo.title);
+       }
+      
 
     return(
-      <div>
+     <div>
       <Box
         component="form"
         sx={{
@@ -71,7 +80,7 @@ console.log(todos);
       </FormControl>
     </Box>
 
-    <p> You have completed {completed.length} of total {totalTask}</p>
+    <p> You have completed {completed} of total {totalTask}</p>
 
     <h2>Your list</h2>
 
@@ -81,13 +90,20 @@ console.log(todos);
                 <li className={item.completed ? "strike": ""} key={index}
                 onClick={handleClick(index)}
                 >
-                    {item.title} - {item.completed ? 'Completed' : 'Not Completed'} 
+                 <span onClick={handleClick(index)}>
+                    {item.title} - {item.completed ? 'Completed' : 'Not Completed'}
+                 </span>
+              <button onClick={(e) => { e.stopPropagation(); deleteTask(item); }}>
+                <DeleteSweepTwoToneIcon />
+              </button>
                 </li>
+                
+
             ))}
         </ul>
 ) : ('Your list is empty. Nothing ToDo?')}
 
-      </div>
+</div>
     )
 }
 
