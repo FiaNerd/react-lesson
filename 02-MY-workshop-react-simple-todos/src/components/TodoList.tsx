@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import style from 'index.css'
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { FormControl, InputLabel, OutlinedInput, Grid, Typography  } from '@mui/material';
+import { FormControl, InputLabel, OutlinedInput } from '@mui/material';
 import DeleteSweepTwoToneIcon from '@mui/icons-material/DeleteSweepTwoTone';
 
 
@@ -67,7 +66,7 @@ const TodoList = () => {
         autoComplete="off"
         onSubmit={handleSubmitTodo}
     >
-      <FormControl >
+      <FormControl required>
         <InputLabel className="text-primary" htmlFor="component-outlined">todo</InputLabel>
         <OutlinedInput
             id="component-outlined"
