@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Todo, TodoList } from './types'
 import './assets/scss/App.scss'
 
@@ -39,6 +39,18 @@ function App() {
 
 	const unfinishedTodos = todos.filter(todo => !todo.completed)
 	const finishedTodos = todos.filter(todo => todo.completed)
+
+    useEffect(() => {
+        console.log("Driving an empty array");
+    }, []) // Denna med en tom array kommer att köras en gång och en gång endast, och det är den första gången och aldirg mer. Så den körs endast försat gången komponenten renderas.
+
+    // Our first side effect (useEffect)
+    useEffect(() => {
+        console.log("Updating a page title using an effect");
+        document.title = `${finishedTodos.length} of ${todos.length} completed`
+    }, [ finishedTodos.length, todos.length ]) // Detta [ finishedTodos.length, todos.length ] är dependencies för att bevaka
+    
+    console.log("Rendering...");
 
 	return (
 		<div className="container">
