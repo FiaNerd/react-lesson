@@ -4,7 +4,7 @@ import './assets/scss/App.scss'
 function App() {
     const [ time, setTime ] = useState(() => { 
         console.log("I'm initing");
-        return new Date().toLocaleTimeString()}) // En funktion i useState
+        return new Date().toLocaleTimeString()}) // En funktion i useState()
 
     useEffect(() => {
         console.log("Starting clock");
@@ -15,6 +15,10 @@ function App() {
             console.log("tick");
         }, 1000 )
     },[] ) 
+
+    useEffect(() => {
+        document.title = time
+    }, [ time ])
 
 
 	return (
