@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Todo, TodoList } from './types'
 import './assets/scss/App.scss'
+import TodoListItem from './components/TodoListItem'
 
 function App() {
      // Måste ge den ett type argumnet <TodoList[]>
@@ -77,43 +78,20 @@ function App() {
 				<>
                  {/* Om du har måsvingar iställt för paranterser så har du skapat en funktion  (todo, index) => (
                   <li></li> ), då måste man skriva return om du har måsvingar*/}
-					<ul className="todolist">
-						{unfinishedTodos.map((todo, index) => (
-							<li className={todo.completed ? 'done' : ''} key={index}>
-								<span className="todo-title">
-									{todo.title}
-								</span>
+                <ul className="todolist">
+                    {unfinishedTodos.map((todo, index) => (
 
-								<span className="ms-1">
-									<span className="todo-toggle" onClick={() => toggleTodo(todo)} role="button">
-										{todo.completed ? '☑️' : '✅'}
-									</span>
-									<span className="todo-delete" onClick={() => deleteTodo(todo)} role="button">
-										🗑️
-									</span>
-								</span>
-							</li>
-						) )}
-					</ul>
+                    // Den behöver key för att den ska veta vilken component som ändras
+                    < TodoListItem todo={todo} key={index} />
+					))}
+				</ul>
 
-					<ul className="todolist">
-						{finishedTodos.map((todo, index) => (
-							<li className={todo.completed ? 'done' : ''} key={index}>
-								<span className="todo-title">
-									{todo.title}
-								</span>
-
-								<span className="ms-1">
-									<span className="todo-toggle" onClick={() => toggleTodo(todo)} role="button">
-										{todo.completed ? '☑️' : '✅'}
-									</span>
-									<span className="todo-delete" onClick={() => deleteTodo(todo)} role="button">
-										🗑️
-									</span>
-								</span>
-							</li>
-						) )}
-					</ul>
+				<ul className="todolist">
+					{finishedTodos.map((todo, index) => (
+                    // Får endast skicka in en title, då det är deklaraerat en interface i TodoListItem
+					< TodoListItem todo={todo} key={index} />
+					))}
+				</ul>
 
 					<p className="status">
 						{finishedTodos.length} of {todos.length} todos completed
