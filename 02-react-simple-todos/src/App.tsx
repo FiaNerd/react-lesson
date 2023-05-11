@@ -2,13 +2,10 @@ import { useEffect, useState } from 'react'
 import { Todo, TodoList } from './types'
 import './assets/scss/App.scss'
 import TodoListItem from './components/TodoListItem'
+import TodoCounter from './components/my_TodoCounter'
+import AddNewTodoForm from './components/AddNewTodoForm'
 
 function App() {
-
-    const toggleTodo = (todo: Todo) => {
-		todo.completed = !todo.completed
-		setTodos([...todos])
-	}
      // Måste ge den ett type argumnet <TodoList[]>
 	const [ todos, setTodos ] = useState<TodoList>([
 		{ title: "Make coffee", completed: true },
@@ -16,22 +13,16 @@ function App() {
 		{ title: "Drink MOAR coffee", completed: false },
 		{ title: "Drink ALL THE coffee", completed: false },
 	])
-	const [newTodoTitle, setNewTodoTitle] = useState("")
 
-	const handleSubmit = (e: React.FormEvent) => {
-		// stop form from submitting
-		e.preventDefault()
-
-		// create a new todo and set a new todos state
-		const newTodo: Todo = {
-			title: newTodoTitle,
-			completed: false,
-		}
-		setTodos([...todos, newTodo])
-
-		// clear newTodoTitle state
-		setNewTodoTitle("")
+    const addTodo = (todo: Todo) => {
+        setTodos([ ...todos, todo ])
+    }
+    
+    const toggleTodo = (todo: Todo) => {
+        todo.completed = !todo.completed
+		setTodos([...todos])
 	}
+    
 
 	const deleteTodo = (todoToDelete: Todo) => {
 		// set a new list of todos where the clicked todo is excluded
@@ -58,22 +49,9 @@ function App() {
 		<div className="container">
 			<h1 className="mb-3">React Simple Todos</h1>
 
-			<form onSubmit={handleSubmit} className="mb-3">
-				<div className="input-group">
-					<input
-						type="text"
-						className="form-control"
-						placeholder="Todo title"
-						onChange={e => setNewTodoTitle(e.target.value)}
-						value={newTodoTitle}
-					/>
-
-					<button
-						type="submit"
-						className="btn btn-success"
-					>Create</button>
-				</div>
-			</form>
+			< AddNewTodoForm 
+                onAddTodo={addTodo}
+            />
 
 			{todos.length > 0 && (
 				<>
@@ -104,9 +82,10 @@ function App() {
 					))}
 				</ul>
 
-					<p className="status">
-						{finishedTodos.length} of {todos.length} todos completed
-					</p>
+                    < TodoCounter 
+                        finishedTodos= {finishedTodos.length}
+                        todo={todos.length}
+                    />
 				</>
 			)}
 
