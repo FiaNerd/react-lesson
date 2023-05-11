@@ -4,8 +4,13 @@ import './assets/scss/App.scss'
 import TodoListItem from './components/TodoListItem'
 
 function App() {
+
+    const toggleTodo = (todo: Todo) => {
+		todo.completed = !todo.completed
+		setTodos([...todos])
+	}
      // Måste ge den ett type argumnet <TodoList[]>
-	const [todos, setTodos] = useState<TodoList>([
+	const [ todos, setTodos ] = useState<TodoList>([
 		{ title: "Make coffee", completed: true },
 		{ title: "Drink coffee", completed: false },
 		{ title: "Drink MOAR coffee", completed: false },
@@ -33,10 +38,6 @@ function App() {
 		setTodos(todos.filter(todo => todo !== todoToDelete))
 	}
 
-	const toggleTodo = (todo: Todo) => {
-		todo.completed = !todo.completed
-		setTodos([...todos])
-	}
 
 	const unfinishedTodos = todos.filter(todo => !todo.completed)
 	const finishedTodos = todos.filter(todo => todo.completed)
@@ -82,14 +83,24 @@ function App() {
                     {unfinishedTodos.map((todo, index) => (
 
                     // Den behöver key för att den ska veta vilken component som ändras
-                    < TodoListItem todo={todo} key={index} />
+                    <TodoListItem
+						onToggle={toggleTodo}
+						onDelete={deleteTodo}
+						todo={todo}
+						key={index}
+						/>
 					))}
 				</ul>
 
 				<ul className="todolist">
 					{finishedTodos.map((todo, index) => (
                     // Får endast skicka in en title, då det är deklaraerat en interface i TodoListItem
-					< TodoListItem todo={todo} key={index} />
+					<TodoListItem
+						onToggle={toggleTodo}
+						onDelete={deleteTodo}
+						todo={todo}
+						key={index}
+						/>
 					))}
 				</ul>
 
