@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
-import { Todo, TodoList } from './types'
+import { Todo, Todos  } from './types'
 import './assets/scss/App.scss'
-import TodoListItem from './components/TodoListItem'
+// import TodoListItem from './components/TodoListItem'
 import TodoCounter from './components/my_TodoCounter'
 import AddNewTodoForm from './components/AddNewTodoForm'
+import TodoList from './components/TodoList'
 
 function App() {
      // Måste ge den ett type argumnet <TodoList[]>
-	const [ todos, setTodos ] = useState<TodoList>([
+	const [ todos, setTodos ] = useState<Todos>([
 		{ title: "Make coffee", completed: true },
 		{ title: "Drink coffee", completed: false },
 		{ title: "Drink MOAR coffee", completed: false },
@@ -55,9 +56,14 @@ function App() {
 
 			{todos.length > 0 && (
 				<>
+                <TodoList 
+                onToggle={onToggle}
+                onDelete={onDelete}
+                todo={todo}
+                key={index}/>
                  {/* Om du har måsvingar iställt för paranterser så har du skapat en funktion  (todo, index) => (
                   <li></li> ), då måste man skriva return om du har måsvingar*/}
-                <ul className="todolist">
+                {/* <ul className="todolist">
                     {unfinishedTodos.map((todo, index) => (
 
                     // Den behöver key för att den ska veta vilken component som ändras
@@ -68,9 +74,9 @@ function App() {
 						key={index}
 						/>
 					))}
-				</ul>
+				</ul> */}
 
-				<ul className="todolist">
+				{/* <ul className="todolist">
 					{finishedTodos.map((todo, index) => (
                     // Får endast skicka in en title, då det är deklaraerat en interface i TodoListItem
 					<TodoListItem
@@ -80,7 +86,7 @@ function App() {
 						key={index}
 						/>
 					))}
-				</ul>
+				</ul> */}
 
                     < TodoCounter 
                         finishedTodos= {finishedTodos.length}
