@@ -1,9 +1,30 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './assets/scss/App.scss'
 
 function App() {
+
 	const [resource, setResource] = useState('posts')
-	const [data, setData] = useState([])
+	const [data, setData] = useState<IResource[]>([])
+
+    interface IResource {
+        id: number;
+        title: string;
+    }
+
+    
+    useEffect(() => {
+        
+        // Fetche resoource 
+        const fetchData = async () => {
+            const resp = await fetch(`https://jsonplaceholder.typicode.com/${resource}`)
+            const payload = await resp.json() as IResource[]
+             setData(payload)
+        }
+
+        fetchData()
+
+    }, [ resource ]) // Kallas för dependencies
+    
 
 	return (
 		<div className="container">
@@ -22,7 +43,7 @@ function App() {
 					<p>There are {data.length} {resource}.</p>
 					<ol>
 						{data.map(item => (
-							<li>{item.title}</li>
+							<li key={item.id}>{item.title}</li>
 						))}
 					</ol>
 				</>
