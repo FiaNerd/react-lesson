@@ -14,9 +14,12 @@ function App() {
 		setTodos(data)
 	}
 
-	const addTodo = (todo: Todo) => {
-		setTodos([...todos, todo])
+	const addTodo = async (todo: Todo) => {
+        const data = await TodosAPI.postTodo(todo)
+		setTodos([...todos, data])
+        console.log("POST Data", data);
 	}
+
 
 	const deleteTodo = (todoToDelete: Todo) => {
 		// set a new list of todos where the clicked todo is excluded
@@ -32,6 +35,19 @@ function App() {
 	useEffect(() => {
 		getTodos()
 	}, [])
+
+    useEffect(() => {
+        const addAndFecthTodos = async () => {
+          try {
+            const todos = await TodosAPI.getTodos() // Hämta todos från API:et
+            setTodos(todos) // Uppdatera din state med de hämtade todos
+          } catch (error) {
+            console.error("Error fetching todos:", error);
+          }
+        }
+      
+        addAndFecthTodos()
+      }, [])
 
 	const unfinishedTodos = todos.filter(todo => !todo.completed)
 	const finishedTodos = todos.filter(todo => todo.completed)
