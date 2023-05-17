@@ -1,10 +1,10 @@
 import React from 'react'
-import { Todo } from '../types';
 import TodoListItem from './TodoListItem';
+import { Todo } from '../types';
 
 interface IProps{
     onToggle: (todo: Todo) => void
-    onDelete: (todo: Todo) => void
+    onDelete: (todoDelete: Todo) => void
     todos: Todo[]
 }
 

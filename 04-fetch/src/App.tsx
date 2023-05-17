@@ -3,28 +3,34 @@ import './assets/scss/App.scss'
 
 function App() {
 
-	const [resource, setResource] = useState('posts')
+	const [resource, setResource] = useState('')
 	const [data, setData] = useState<IResource[]>([])
 
     interface IResource {
         id: number;
         title: string;
     }
-
-    
+   
     useEffect(() => {
         
-        // Fetche resoource 
+        if(!resource){
+            return 
+        }
+        
+        setData([])
+        // Fetch resource 
         const fetchData = async () => {
             const resp = await fetch(`https://jsonplaceholder.typicode.com/${resource}`)
+
             const payload = await resp.json() as IResource[]
-             setData(payload)
+
+                setData(payload)
         }
 
-        fetchData()
+        fetchData() 
 
     }, [ resource ]) // Kallas för dependencies
-    
+
 
 	return (
 		<div className="container">
@@ -37,12 +43,12 @@ function App() {
 				<button onClick={() => setResource('todos')} className="btn btn-danger">Todos</button>
 			</div>
 
-			{data && (
+			{ resource && (
 				<>
 					<h2>{resource}</h2>
 					<p>There are {data.length} {resource}.</p>
 					<ol>
-						{data.map(item => (
+						{ data.map(item => (
 							<li key={item.id}>{item.title}</li>
 						))}
 					</ol>

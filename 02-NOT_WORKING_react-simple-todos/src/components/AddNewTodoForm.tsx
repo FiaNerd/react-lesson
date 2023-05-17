@@ -30,14 +30,15 @@ const AddNewTodoForm: React.FC<IProps> = ( { onAddTodo } ) => {
   return (
     <>
       <form onSubmit={handleSubmit} className="mb-3">
-				<div className="input-group">
-					<input
-						type="text"
-						className="form-control"
-						placeholder="Todo title"
-						onChange={e => setNewTodoTitle(e.target.value)}
-						value={newTodoTitle}
-					/>
+			<div className="input-group">
+				<input
+					type="text"
+					className="form-control"
+					placeholder="Todo title"
+					onChange={e => setNewTodoTitle(e.target.value)}
+					value={newTodoTitle}
+				/>
+
 
 					<button
                     // Denna disable gör att knappen är disable tills någon skriver in något i formuläret

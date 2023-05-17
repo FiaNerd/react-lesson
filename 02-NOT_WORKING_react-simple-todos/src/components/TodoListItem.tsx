@@ -12,7 +12,7 @@ import { Todo} from '../types'
 interface IProps {
     todo: Todo  // property todo måste vara av datatypen Todo (Todo kommer från types)
     onToggle: (todo: Todo) => void
-    onDelete: (todo: Todo) => void
+    onDelete: (todoToDelete: Todo) => void
 }
 
 // Ärver från den ovanför 
@@ -30,23 +30,20 @@ const TodoListItem: React.FC<IProps> = ({ todo, onToggle, onDelete }) => {
   
     return(
     <>
-    <li className={todo.completed ? 'done' : ''} >
-		<span className="todo-title">
-			{todo.title}
-		</span>
-        <span className="ms-1">
-		<span className="todo-toggle" 
-              onClick={() => onToggle(todo)} 
-              role="button">
-		{todo.completed ? '☑️' : '✅'}
-	</span>
-		<span className="todo-delete" 
-              onClick={() => onDelete(todo)} 
-              role="button">
+    <li className={todo.completed ? 'done' : ''}>
+			<span className="todo-title">
+				{todo.title}
+			</span>
+
+			<span className="ms-1">
+				<span className="todo-toggle" onClick={() => onToggle(todo)} role="button">
+					{todo.completed ? '☑️' : '✅'}
+				</span>
+				<span className="todo-delete" onClick={() => onDelete(todo)} role="button">
 					🗑️
 				</span>
-		</span> 
-	</li> 
+			</span>
+		</li>
     </>
     )
 }
