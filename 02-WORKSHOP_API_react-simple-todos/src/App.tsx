@@ -14,10 +14,10 @@ function App() {
 		setTodos(data)
 	}
 
+
 	const addTodo = async (todo: Todo) => {
         const data = await TodosAPI.postTodo(todo)
 		setTodos([...todos, data])
-        console.log("POST Data", data);
 	}
 
 
@@ -26,28 +26,71 @@ function App() {
 		setTodos(todos.filter(todo => todo !== todoToDelete))
 	}
 
-	const toggleTodo = (todo: Todo) => {
-		todo.completed = !todo.completed
-		setTodos([...todos])
-	}
+
+    const toggleTodo = async (todo: Todo) => {
+        const todoId = todo.id;
+      
+        try {
+
+            // Send a PATCH-request to the API for update the todo
+          const updatedTodo = await TodosAPI.patchTodo({
+            ...todo,
+            completed: !todo.completed
+          });
+      
+          console.log("Uppdaterad todo:", updatedTodo);
+      
+          // Update todos in the state 
+          const updatedTodos = todos.map(todo => {
+            if (todo.id === todoId) {
+              return updatedTodo; //Use the updated todo from the API
+            }
+            return todo;
+          });
+      
+          setTodos(updatedTodos)
+      
+        } catch (error) {
+          console.error("Error updating todo:", error);
+        }
+    }
+      
 
 	// fetch todos when App is being mounted
 	useEffect(() => {
 		getTodos()
 	}, [])
 
+
     useEffect(() => {
         const addAndFecthTodos = async () => {
           try {
-            const todos = await TodosAPI.getTodos() // Hämta todos från API:et
-            setTodos(todos) // Uppdatera din state med de hämtade todos
+            // Get the todo from the API
+            const todos = await TodosAPI.getTodos() 
+            // Update state with the fetched todo
+            setTodos(todos) 
           } catch (error) {
             console.error("Error fetching todos:", error);
           }
         }
-      
-        addAndFecthTodos()
+             addAndFecthTodos()
       }, [])
+
+   
+      useEffect(() => {
+        const updateTodo = async () => {
+            try {
+                const todos = await TodosAPI.getTodos() // Hämta todos från API:et
+                setTodos(todos) // Uppdatera din state med de hämtade todos
+                console.log(todos);
+            } catch (error) {
+                console.error("Error fetching todos:", error);
+            }
+        }
+            updateTodo()
+      },[])
+
+
 
 	const unfinishedTodos = todos.filter(todo => !todo.completed)
 	const finishedTodos = todos.filter(todo => todo.completed)
