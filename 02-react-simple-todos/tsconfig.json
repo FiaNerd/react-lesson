@@ -19,6 +19,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["../2.1-react-simple-todos_dummyData/src"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

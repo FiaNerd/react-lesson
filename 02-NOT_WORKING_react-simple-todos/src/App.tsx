@@ -57,9 +57,9 @@ function App() {
 			{todos.length > 0 && (
 				<>
                 <TodoList 
-                onToggle={onToggle}
-                onDelete={onDelete}
-                todo={todo}
+                onToggle={toggleTodo}
+                onDelete={deleteTodo}
+                todo={todos}
                 key={index}/>
                  {/* Om du har måsvingar iställt för paranterser så har du skapat en funktion  (todo, index) => (
                   <li></li> ), då måste man skriva return om du har måsvingar*/}
