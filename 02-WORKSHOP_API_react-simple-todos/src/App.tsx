@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { cloneElement, useEffect, useState } from 'react'
 import { Todo, Todos } from './types'
 import './assets/scss/App.scss'
 import TodoCounter from './components/TodoCounter'
@@ -21,10 +21,25 @@ function App() {
 	}
 
 
-	const deleteTodo = (todoToDelete: Todo) => {
-		// set a new list of todos where the clicked todo is excluded
-		setTodos(todos.filter(todo => todo !== todoToDelete))
-	}
+	const deleteTodo = async (todoToDelete: Todo) => {
+        const todoId = todoToDelete.id;
+      
+        try {
+          const data = await TodosAPI.deleteTodo(todoToDelete) //
+
+          console.log("Data deleted", data);
+      
+          const filteredTodos = todos.filter((todo) => todo.id !== todoId)
+
+          setTodos(filteredTodos)
+
+          console.log("FILTERED", filteredTodos);
+      
+        } catch (err) {
+          console.log("Error deleting todo", err);
+        }
+      }
+
 
 
     const toggleTodo = async (todo: Todo) => {
@@ -38,7 +53,7 @@ function App() {
             completed: !todo.completed
           });
       
-          console.log("Uppdaterad todo:", updatedTodo);
+          console.log("Updated  todo:", updatedTodo);
       
           // Update todos in the state 
           const updatedTodos = todos.map(todo => {
@@ -54,6 +69,28 @@ function App() {
           console.error("Error updating todo:", error);
         }
     }
+
+
+    useEffect(() =>  {
+        const removeTodo = async () => {
+
+            try {
+                const data = await TodosAPI.getTodos()
+                
+                setTodos(data)
+
+                // if(todos.length > 0) {
+                //     deleteTodo(todos[0])
+                // }
+            
+                
+            } catch (err) {
+                console.log("Error getting todos", err);
+            }   
+        }
+        removeTodo();
+    },[])
+   
       
 
 	// fetch todos when App is being mounted
@@ -76,7 +113,9 @@ function App() {
              addAndFecthTodos()
       }, [])
 
-   
+
+
+
       useEffect(() => {
         const updateTodo = async () => {
             try {

@@ -27,18 +27,27 @@ export const postTodo = async (data: Todo) => {
 
 
 /**
+ * Delete a todo
+ *
+ * @param todo_id Todo to delete
+ */
+
+export const deleteTodo = async ( todo: Todo ) => {
+    const res = await axios.delete(`${BASE_URL}/todos/${todo.id}`)
+
+    // console.log("Res DELETE", res, "RES Data", res.data);
+
+    return res.data as Todo
+}
+
+
+/**
  * Update a todo
  *
  * @param todo_id Todo to update
  * @param data Data to update todo with
  */
-export const patchTodo = async (todo: Todo) => {
+export const patchTodo = async ( todo: Todo ) => {
     const res = await axios.patch(`${BASE_URL}/todos/${todo.id}`, todo)
     return res.data as Todo
 }
-
-/**
- * Delete a todo
- *
- * @param todo_id Todo to delete
- */
