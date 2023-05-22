@@ -1,4 +1,4 @@
-import { cloneElement, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Todo, Todos } from './types'
 import './assets/scss/App.scss'
 import TodoCounter from './components/TodoCounter'
@@ -6,63 +6,48 @@ import TodoList from './components/TodoList'
 import AddNewTodoForm from './components/AddNewTodoForm'
 import * as TodosAPI from './services/TodosAPI'
 
+
 function App() {
-	const [todos, setTodos] = useState<Todos>([])
+	const [ todos, setTodos ] = useState<Todos>([])
 
 	const getTodos = async () => {
-		const data = await TodosAPI.getTodos()
-		setTodos(data)
+		const allTodos = await TodosAPI.getTodos()
+		setTodos(allTodos)
 	}
 
 
-	const addTodo = async (todo: Todo) => {
-        const data = await TodosAPI.postTodo(todo)
-		setTodos([...todos, data])
+	const createTodo = async (todoToCreate: Todo) => {
+        const createdTodo = await TodosAPI.createTodo(todoToCreate)
+		setTodos([...todos, createdTodo])
 	}
 
 
 	const deleteTodo = async (todoToDelete: Todo) => {
-        const todoId = todoToDelete.id;
       
         try {
-          const data = await TodosAPI.deleteTodo(todoToDelete) //
+          await TodosAPI.deleteTodo(todoToDelete) 
 
-          console.log("Data deleted", data);
-      
-          const filteredTodos = todos.filter((todo) => todo.id !== todoId)
+          const refreshedTodos = await TodosAPI.getTodos()
 
-          setTodos(filteredTodos)
-
-          console.log("FILTERED", filteredTodos);
+          setTodos(refreshedTodos)
       
         } catch (err) {
           console.log("Error deleting todo", err);
         }
-      }
+    }
 
 
+    const toggleTodo = async (todoToUpdate: Todo) => {
 
-    const toggleTodo = async (todo: Todo) => {
-        const todoId = todo.id;
-      
         try {
+           // Send a PATCH-request to the API for update the todo
+           await TodosAPI.updateTodo({
+            ...todoToUpdate,
+            completed: !todoToUpdate.completed
+          })
 
-            // Send a PATCH-request to the API for update the todo
-          const updatedTodo = await TodosAPI.patchTodo({
-            ...todo,
-            completed: !todo.completed
-          });
-      
-          console.log("Updated  todo:", updatedTodo);
-      
-          // Update todos in the state 
-          const updatedTodos = todos.map(todo => {
-            if (todo.id === todoId) {
-              return updatedTodo; //Use the updated todo from the API
-            }
-            return todo;
-          });
-      
+          const updatedTodos = await TodosAPI.getTodos()
+
           setTodos(updatedTodos)
       
         } catch (error) {
@@ -70,77 +55,20 @@ function App() {
         }
     }
 
-
-    useEffect(() =>  {
-        const removeTodo = async () => {
-
-            try {
-                const data = await TodosAPI.getTodos()
-                
-                setTodos(data)
-
-                // if(todos.length > 0) {
-                //     deleteTodo(todos[0])
-                // }
-            
-                
-            } catch (err) {
-                console.log("Error getting todos", err);
-            }   
-        }
-        removeTodo();
-    },[])
-   
-      
-
-	// fetch todos when App is being mounted
-	useEffect(() => {
-		getTodos()
-	}, [])
-
-
+    // Händer bara första gången på inladdning av sidan 
     useEffect(() => {
-        const addAndFecthTodos = async () => {
-          try {
-            // Get the todo from the API
-            const todos = await TodosAPI.getTodos() 
-            // Update state with the fetched todo
-            setTodos(todos) 
-          } catch (error) {
-            console.error("Error fetching todos:", error);
-          }
-        }
-             addAndFecthTodos()
-      }, [])
-
-
-
-
-      useEffect(() => {
-        const updateTodo = async () => {
-            try {
-                const todos = await TodosAPI.getTodos() // Hämta todos från API:et
-                setTodos(todos) // Uppdatera din state med de hämtade todos
-                console.log(todos);
-            } catch (error) {
-                console.error("Error fetching todos:", error);
-            }
-        }
-            updateTodo()
-      },[])
-
+        getTodos()
+    }, [])
 
 
 	const unfinishedTodos = todos.filter(todo => !todo.completed)
 	const finishedTodos = todos.filter(todo => todo.completed)
 
-	// console.log("App rendering...")
-
 	return (
 		<div className="container">
 			<h1 className="mb-3">React Simple Todos</h1>
 
-			<AddNewTodoForm onAddTodo={addTodo} />
+			<AddNewTodoForm onAddTodo={createTodo} />
 
 			{todos.length > 0 && (
 				<>

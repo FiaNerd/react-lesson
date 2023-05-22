@@ -1,29 +1,14 @@
 {
   "todos": [
     {
-      "id": 1,
-      "title": "Make coffee",
-      "completed": false
-    },
-    {
-      "id": 2,
-      "title": "Drink coffee",
-      "completed": true
-    },
-    {
-      "id": 3,
-      "title": "Drink MOAR coffee",
-      "completed": true
-    },
-    {
-      "id": 4,
-      "title": "Drink ALL THE coffee",
-      "completed": true
-    },
-    {
-      "title": "Be better",
+      "title": "test",
       "completed": true,
-      "id": 5
+      "id": 3
+    },
+    {
+      "title": "Coffe",
+      "completed": false,
+      "id": 11
     }
   ]
 }
