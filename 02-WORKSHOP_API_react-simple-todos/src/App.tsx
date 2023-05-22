@@ -11,28 +11,37 @@ function App() {
 	const [ todos, setTodos ] = useState<Todos>([])
 
 	const getTodos = async () => {
-		const allTodos = await TodosAPI.getTodos()
-		setTodos(allTodos)
+        try{
+            const allTodos = await TodosAPI.getTodos()
+            setTodos(allTodos)
+        }catch(err){
+            console.log("Error getting Todos", err);
+        }
 	}
 
 
 	const createTodo = async (todoToCreate: Todo) => {
-        const createdTodo = await TodosAPI.createTodo(todoToCreate)
-		setTodos([...todos, createdTodo])
+
+        try{
+            const createdTodo = await TodosAPI.createTodo(todoToCreate)
+            setTodos([...todos, createdTodo])
+        }catch(err){
+            console.log("Error creating Todo", err);
+        }
 	}
 
 
 	const deleteTodo = async (todoToDelete: Todo) => {
       
         try {
-          await TodosAPI.deleteTodo(todoToDelete) 
+            await TodosAPI.deleteTodo(todoToDelete) 
 
-          const refreshedTodos = await TodosAPI.getTodos()
+            const refreshedTodos = await TodosAPI.getTodos()
 
-          setTodos(refreshedTodos)
+            setTodos(refreshedTodos)
       
         } catch (err) {
-          console.log("Error deleting todo", err);
+            console.log("Error deleting todo", err);
         }
     }
 
@@ -41,17 +50,17 @@ function App() {
 
         try {
            // Send a PATCH-request to the API for update the todo
-           await TodosAPI.updateTodo({
-            ...todoToUpdate,
-            completed: !todoToUpdate.completed
+            await TodosAPI.updateTodo({
+                ...todoToUpdate,
+                completed: !todoToUpdate.completed
           })
 
-          const updatedTodos = await TodosAPI.getTodos()
+            const updatedTodos = await TodosAPI.getTodos()
 
-          setTodos(updatedTodos)
-      
+            setTodos(updatedTodos)
+        
         } catch (error) {
-          console.error("Error updating todo:", error);
+            console.error("Error updating todo:", error);
         }
     }
 
