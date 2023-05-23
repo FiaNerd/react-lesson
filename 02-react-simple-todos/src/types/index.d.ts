@@ -4,4 +4,6 @@ export type Todo = {
 	completed: boolean
 }
 
+export type PartialTodo = Todo
+
 export type Todos = Todo[]

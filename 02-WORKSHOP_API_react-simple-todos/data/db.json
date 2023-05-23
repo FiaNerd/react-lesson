@@ -1,14 +1,3 @@
 {
-  "todos": [
-    {
-      "title": "test",
-      "completed": true,
-      "id": 3
-    },
-    {
-      "title": "Coffe",
-      "completed": false,
-      "id": 11
-    }
-  ]
+  "todos": []
 }

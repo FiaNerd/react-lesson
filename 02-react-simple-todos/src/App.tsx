@@ -14,21 +14,46 @@ function App() {
 		setTodos(data)
 	}
 
-	const addTodo = (todo: Todo) => {
-		setTodos([...todos, todo])
+    // Create a Todo in API
+	const addTodo = async (todo: Todo) => {
+
+            await TodosAPI.createTodo(todo)
+            getTodos()
+       
+		// setTodos([...todos, todo])
 	}
 
-	const deleteTodo = (todoToDelete: Todo) => {
+	const deleteTodo = async (todoToDelete: Todo) => {
+        await TodosAPI.deleteTodo(todoToDelete)
+        console.log("TodoTODelete", todoToDelete);
+        getTodos()
+
 		// set a new list of todos where the clicked todo is excluded
-		setTodos(todos.filter(todo => todo !== todoToDelete))
+		// setTodos(todos.filter(todo => todo !== todoToDelete))
 	}
 
-	const toggleTodo = (todo: Todo) => {
-		todo.completed = !todo.completed
-		setTodos([...todos])
-	}
+	// const toggleTodo = async (todo: Todo) => {
+
+	// 	todo.completed = !todo.completed
+    //     await TodosAPI.toggleTodo(todo)
+    //     getTodos()
+    // }
+	const updateATodo = async (todo: Todo) => {
+
+		// todo.completed = !todo.completed
+        await TodosAPI.updateTodo(todo.id, {
+            ...todo,
+            completed:!todo.completed
+        })
+
+        getTodos()
+    }
+
+		// setTodos([...todos])
+	
 
 	// fetch todos when App is being mounted
+    // useEffect monteras bara försa gången den renderas
 	useEffect(() => {
 		getTodos()
 	}, [])
