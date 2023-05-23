@@ -33,10 +33,10 @@ export const createTodo = async (todo: Todo):Promise<Todos> => {
  * @param todo_id Todo to update
  * @param data Data to update todo with
  */
-export const toggleTodo = async (todo: Todo): Promise<Todo> => {
-    const res = await axios.put(`${BASE_URL}/todos/${todo.id}`, todo)
-    return res.data
-}
+// export const toggleTodo = async (todo: Todo): Promise<Todo> => {
+//     const res = await axios.put(`${BASE_URL}/todos/${todo.id}`, todo)
+//     return res.data
+// }
 
 export const updateTodo = async (todo_id: number, data: PartialTodo): Promise<Todo> => {
 	const res = await axios.patch(`${BASE_URL}/todos/${todo_id}`, data)

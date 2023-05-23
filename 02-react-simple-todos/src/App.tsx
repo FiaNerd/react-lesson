@@ -9,6 +9,7 @@ import * as TodosAPI from './services/TodosAPI'
 function App() {
 	const [todos, setTodos] = useState<Todos>([])
 
+
 	const getTodos = async () => {
 		const data = await TodosAPI.getTodos()
 		setTodos(data)
@@ -32,24 +33,20 @@ function App() {
 		// setTodos(todos.filter(todo => todo !== todoToDelete))
 	}
 
-	// const toggleTodo = async (todo: Todo) => {
+    const toggleTodo = async (todo: Todo) => {
+		if (!todo.id) {
+			return
+		}
 
-	// 	todo.completed = !todo.completed
-    //     await TodosAPI.toggleTodo(todo)
-    //     getTodos()
-    // }
-	const updateATodo = async (todo: Todo) => {
+		// Update a todo in the api
+		await TodosAPI.updateTodo(todo.id, {
+			completed: !todo.completed
+		})
 
-		// todo.completed = !todo.completed
-        await TodosAPI.updateTodo(todo.id, {
-            ...todo,
-            completed:!todo.completed
-        })
-
-        getTodos()
-    }
-
-		// setTodos([...todos])
+		// Get all the todos from the api
+		getTodos()
+	}
+	// 	// setTodos([...todos])
 	
 
 	// fetch todos when App is being mounted

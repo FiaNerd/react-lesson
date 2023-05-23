@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Todo } from '../types'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -8,6 +8,8 @@ interface IProps {
 
 const AddNewTodoForm: React.FC<IProps> = ({ onAddTodo }) => {
 	const [newTodoTitle, setNewTodoTitle] = useState("")
+    const newTodoTitleRef = useRef<HTMLInputElement>(null)
+  
 
 	const handleSubmit = (e: React.FormEvent) => {
 		// stop form from submitting
@@ -24,12 +26,19 @@ const AddNewTodoForm: React.FC<IProps> = ({ onAddTodo }) => {
 		setNewTodoTitle("")
 	}
 
+    // Effecten körs först efter renderingen körs
+    useEffect(() => {
+        //Ger focus endast försat gången den renderas, så när du laddar in sidan så focuserar den på input fältet den första gången
+            newTodoTitleRef.current?.focus()
+        }, [])
+
 	// console.log("AddNewTodoForm rendering...")
 
 	return (
 		<form onSubmit={handleSubmit} className="mb-3">
 			<div className="input-group">
 				<input
+                    ref={newTodoTitleRef}
 					type="text"
 					className="form-control"
 					placeholder="Todo title"
