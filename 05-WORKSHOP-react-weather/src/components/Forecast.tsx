@@ -12,12 +12,15 @@ interface IProps {
 const Forecast: React.FC<IProps> = ({ currentWeather }) => {
 
 
+    const getWatherDayOrNight = () => {
         const now = Math.round(Date.now() / 1000);
-    
-        const banner = (now > currentWeather.sys.sunrise && now < currentWeather.sys.sunset) ?
+        return (now > currentWeather.sys.sunrise && now < currentWeather.sys.sunset) ?
         day
         : night
-
+    }
+        
+    const banner = getWatherDayOrNight()
+     
 
    
 	return (
