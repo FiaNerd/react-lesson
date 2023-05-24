@@ -10,9 +10,11 @@ const SearchCity:  React.FC<IProps> = ({ onSearchCity }) => {
     const handleSubmit =  ( e: React.FormEvent ) => {
         e.preventDefault()
         
-        onSearchCity(findCity)
+        if(findCity.length > 2){
+            onSearchCity(findCity)
 
-        setFindCity("")
+            setFindCity("")
+        }
     }
 
 	return (
@@ -30,6 +32,7 @@ const SearchCity:  React.FC<IProps> = ({ onSearchCity }) => {
 					<button
 						type="submit"
 						className="btn btn-success"
+                        disabled={!handleSubmit }
 					>🔍</button>
 				</div>
 			</form>

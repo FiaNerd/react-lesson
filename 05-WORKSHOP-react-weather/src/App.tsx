@@ -6,48 +6,43 @@ import { ICurrentWeather } from './types'
 import Airplane from './assets/images/747.svg'
 import './assets/scss/App.scss'
 
-
 function App() {
-    const [ weather, setWeather ] = useState<ICurrentWeather | null>(null)
-    const [ isLoading, setIsLoading ] = useState(false)
-    const [ isError, setIsError ] = useState("")
+  const [weather, setWeather] = useState<ICurrentWeather | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isError, setIsError] = useState<string | null>(null)
 
-    const handleSearch = async (location: string) => {
+  const handleSearch = async (location: string) => {
+    setIsLoading(true)
+    setIsError(null)
 
-        setIsError("")
-        setIsLoading(true)
-
-        try {
-            const response = await getCurrentWeather(location)
-
-            setWeather(response)
-
-            setIsLoading(false)
-            
-        } catch (err){
-            console.log(err)
-            setIsError("Sorry, can't find the city!")
-            setIsLoading(false)
-        }
+    try {
+      const response = await getCurrentWeather(location)
+      setWeather(response)
+    } catch (err) {
+      console.log(err)
+      setIsError(`Sorry, can't find the city "${location}"!`)
     }
 
-	return (
+    setIsLoading(false)
+  }
 
-        <div id="app" className="container">
-            { isLoading ? (
-                <img src={Airplane} alt="airplane" />
-              
-            ): (
-            <>
-                <SearchCity onSearchCity={handleSearch}/>
+  return (
+    <div id="app" className="container">
+      {isLoading ? (
+        <img src={Airplane} alt="airplane" />
+      ) : (
+        <>
+          <SearchCity onSearchCity={handleSearch} />
 
-                { isError && <div className="alert alert-danger">{isError}</div>}
+          {isError && (
+              <div className="alert alert-danger">{isError}</div>
+          )}
 
-                { weather && !isError &&  <Forecast currentWeather={weather} /> }
-            </>
-            )}
-		</div>
-    )
+          {!isError && weather && <Forecast currentWeather={weather} />}
+        </>
+      )}
+    </div>
+  )
 }
 
 export default App
