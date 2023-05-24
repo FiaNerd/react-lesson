@@ -15,7 +15,7 @@ const BASE_URL = "https://api.openweathermap.org/data/2.5"
 export const getCurrentWeather = async (query: string) => {
 	const response = await axios.get<ICurrentWeather>(`${BASE_URL}/weather?q=${query}&units=metric&appid=${API_KEY}`)
 
-	await new Promise(r => setTimeout(r, 1500))
+	await new Promise(r => setTimeout(r, 2000))
 
 	return response.data
 }

@@ -1,7 +1,14 @@
 import React from 'react'
 import forecastBanner from '../assets/images/forecast-banner.png'
+import { ICurrentWeather } from '../types'
 
-const Forecast = () => {
+interface IProps {
+    currentWeather: ICurrentWeather 
+}
+
+
+const Forecast: React.FC<IProps> = ({ currentWeather }) => {
+   
 	return (
 		<div id="forecast">
 			<div className="card">
@@ -10,18 +17,18 @@ const Forecast = () => {
 
 				<div className="card-body">
 					<h5 className="card-title" id="location">
-						<span id="city">CITY</span>,
-						<span id="country">COUNTRY</span>
+						<span id="city">{currentWeather.name}</span>,
+						<span id="country">{currentWeather.sys.country}</span>
 					</h5>
 					<p className="temp">
-						<span id="temperature">TEMP</span>
+						<span id="temperature">{currentWeather.main.temp}</span>
 						&deg;C
 					</p>
 					<p className="humidity">
-						<span id="humidity">HUMIDITY</span> % humidity
+						<span id="humidity">{currentWeather.main.humidity}</span> % humidity
 					</p>
 					<p className="wind">
-						<span id="windspeed">WIND_SPEED</span> m/s
+						<span id="windspeed">{currentWeather.wind.speed}</span> m/s {currentWeather.wind.deg}&deg;
 					</p>
 
 					{/*
