@@ -19,7 +19,6 @@ const Forecast: React.FC<IProps> = ({ currentWeather }) => {
         : night
     }
         
-    const banner = getWatherDayOrNight()
      
 
    
@@ -27,7 +26,7 @@ const Forecast: React.FC<IProps> = ({ currentWeather }) => {
 		<div id="forecast">
 			<div className="card">
 
-				<img src={banner} className="card-img-top" alt="Daytime, nighttime, daytime, nighttime"/>
+				<img src={getWatherDayOrNight()} className="card-img-top" alt="Daytime, nighttime, daytime, nighttime"/>
 
 				<div className="card-body">
 					<h5 className="card-title" id="location">
