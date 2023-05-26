@@ -1,7 +1,7 @@
 import React from 'react'
 // import forecastBanner from '../assets/images/forecast-banner.png'
-import day from '../assets/images/day.svg'
-import night from '../assets/images/night.svg'
+import dayBanner from '../assets/images/day.svg'
+import nightBanner from '../assets/images/night.svg'
 import { ICurrentWeather } from '../types'
 
 interface IProps {
@@ -15,8 +15,8 @@ const Forecast: React.FC<IProps> = ({ currentWeather }) => {
     const getWatherDayOrNight = () => {
         const now = Math.round(Date.now() / 1000);
         return (now > currentWeather.sys.sunrise && now < currentWeather.sys.sunset) ?
-        day
-        : night
+        dayBanner
+        : nightBanner
     }
       
 	return (

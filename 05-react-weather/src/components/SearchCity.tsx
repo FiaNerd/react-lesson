@@ -17,7 +17,7 @@ const SearchCity: React.FC<IProps> = ({ onSearch }) => {
 		setCity("")
 	}
 
-    const toFewCharacters = city.trim().length > 0 && city.trim().length > 3 
+	const tooFewCharacters = city.trim().length > 0 && city.trim().length < 3
 
 	return (
 		<div id="search-wrapper">
@@ -32,12 +32,13 @@ const SearchCity: React.FC<IProps> = ({ onSearch }) => {
 					/>
 
 					<button
+						disabled={city.trim().length < 3}
 						type="submit"
 						className="btn btn-success"
-                        disabled={city.trim().length < 3}
 					>🔍</button>
 				</div>
-                   {toFewCharacters && <div className="form-text">Please Enter at least more then characters</div>}
+
+				{tooFewCharacters && <div className="form-text">Please enter at least 3 characters</div>}
 			</form>
 		</div>
 	)
