@@ -1,5 +1,5 @@
 import React from 'react'
-import forecastBanner from '../assets/images/forecast-banner.png'
+// import forecastBanner from '../assets/images/forecast-banner.png'
 import day from '../assets/images/day.svg'
 import night from '../assets/images/night.svg'
 import { ICurrentWeather } from '../types'
@@ -18,10 +18,7 @@ const Forecast: React.FC<IProps> = ({ currentWeather }) => {
         day
         : night
     }
-        
-     
-
-   
+      
 	return (
 		<div id="forecast">
 			<div className="card">
