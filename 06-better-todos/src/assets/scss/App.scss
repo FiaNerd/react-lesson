@@ -1,15 +1,10 @@
 @import "bootstrap/scss/bootstrap";
 
-body {
-	background-color: $gray-900;
-	color: $gray-200;
-}
-
 .todolist {
-	.done {
-		.todo-title {
-			font-style: italic;
-			text-decoration: line-through;
-		}
-	}
+  .done {
+    .todo-title {
+      font-style: italic;
+      text-decoration: line-through;
+    }
+  }
 }
