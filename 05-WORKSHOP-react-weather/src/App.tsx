@@ -18,7 +18,8 @@ function App() {
     try {
       const response = await getCurrentWeather(location)
       setWeather(response)
-    } catch (err) {
+
+    } catch (err: any) {
       console.log(err)
       setIsError(`Sorry, can't find the city "${location}"!`)
     }
@@ -29,7 +30,7 @@ function App() {
   return (
     <div id="app" className="container">
       {isLoading ? (
-        <img src={Airplane} alt="airplane" />
+        <img className="img-fluid py-5 w-100" src={Airplane} alt="airplane" />
       ) : (
         <>
           <SearchCity onSearchCity={handleSearch} />

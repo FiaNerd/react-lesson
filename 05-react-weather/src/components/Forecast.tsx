@@ -29,9 +29,9 @@ const Forecast: React.FC<IProps> = ({ data }) => {
 						<span id="windspeed">{data.wind.speed}</span> m/s {data.wind.deg}&deg;
 					</p>
 
-					{/*
+					
 					<ul className="conditions">
-						<li><img src="" title="CONDITION_MAIN" alt="CONDITION_MAIN">CONDITION_DESCRIPTION</li>
+						<li><img src="" title="CONDITION_MAIN" alt="CONDITION_MAIN" />CONDITION_DESCRIPTION</li>
 					</ul>
 
 					<p className="text-muted small">
@@ -39,7 +39,7 @@ const Forecast: React.FC<IProps> = ({ data }) => {
 							1970-01-01 13:37:00
 						</span>
 					</p>
-					*/}
+					
 				</div>
 
 			</div>
