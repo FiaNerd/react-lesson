@@ -52,7 +52,13 @@ const TodosPage = () => {
 
 	// fetch todos when App is being mounted
 	useEffect(() => {
+        console.log("TodosPage is being mounted for the first time");
 		getTodos()
+
+        // Denna return kallas för en cleanup
+        return () => {
+            console.log("TodosPage is saying goodbye");
+        }
 	}, [])
 
 	return (

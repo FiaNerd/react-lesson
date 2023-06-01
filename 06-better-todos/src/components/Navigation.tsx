@@ -3,6 +3,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import { NavLink, Link } from 'react-router-dom'
 
+// Todo: Remove to a partial folder
 const Navigation = () => {
 	return (
 		<Navbar bg="dark" variant="dark" expand="md">
@@ -14,6 +15,7 @@ const Navigation = () => {
 					<Nav className="ms-auto">
 						<Nav.Link as={NavLink} to="/">Home</Nav.Link>
 						<Nav.Link as={NavLink} to="/todos">Todos</Nav.Link>
+						<Nav.Link as={NavLink} to="/todos/create">Create Todo</Nav.Link>
 					</Nav>
 				</Navbar.Collapse>
 			</Container>
