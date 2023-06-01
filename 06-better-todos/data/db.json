@@ -2,7 +2,7 @@
   "todos": [
     {
       "title": "Learn React Bootstrap",
-      "completed": false,
+      "completed": true,
       "id": 1
     },
     {
@@ -14,6 +14,11 @@
       "title": "Learn stuff",
       "completed": true,
       "id": 3
+    },
+    {
+      "title": "hej",
+      "completed": false,
+      "id": 4
     }
   ]
 }
