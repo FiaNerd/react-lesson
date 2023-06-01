@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { Todo, Todos } from '../types'
-import Alert from 'react-bootstrap/Alert'
-import ListGroup from 'react-bootstrap/ListGroup'
-import { Link, useLocation, useSearchParams } from 'react-router-dom'
 import AddNewTodoForm from '../components/AddNewTodoForm'
-import AutoDismissingAlert from '../components/AutoDismissingAlert'
 import * as TodosAPI from '../services/TodosAPI'
+import Alert from 'react-bootstrap/Alert';
+import { ListGroup } from 'react-bootstrap';
+
+
 
 const TodosPage = () => {
-	const [todos, setTodos] = useState<Todos|null>(null)
-	const location = useLocation()
-	const [searchParams, setSearchParams] = useSearchParams()
-	const searchParams_deletedTodo = searchParams.get("deleted")
-	const deletedTodo = Boolean(searchParams_deletedTodo)
+	const [todos, setTodos] = useState<Todos | null>(null)
+    const location = useLocation()
+
+    console.log("Location:", location);
+    // console.log({location});
 
 	// Get todos from api
 	const getTodos = async () => {
@@ -28,7 +29,13 @@ const TodosPage = () => {
 
 	// fetch todos when App is being mounted
 	useEffect(() => {
+        console.log("TodosPage is being mounted for the first time");
 		getTodos()
+
+        // Denna return kallas för en cleanup
+        return () => {
+            console.log("TodosPage is saying goodbye");
+        }
 	}, [])
 
 	return (
@@ -37,18 +44,15 @@ const TodosPage = () => {
 
 			<AddNewTodoForm onAddTodo={addTodo} />
 
-			{location.state?.message && (
-				<Alert variant="success">
-					{location.state.message}
-				</Alert>
-			)}
+            { location.state?.message && (
+                <Alert variant="success">
+                    {location.state.message}
+                </Alert>
+            )}
 
-			{deletedTodo && (
-				<AutoDismissingAlert variant="success" hideAfter={3}>
-					Todo was successfully deleted
-				</AutoDismissingAlert>
-			)}
 
+            {/* Om du har null i hooken istället för en tom arry, så måste du ha todos här i denna
+            annars kommer det inte funka, den blir en boolean, så om den är null så är den false */}
 			{todos && todos.length > 0 && (
 				<ListGroup className="todolist">
 					{todos.map(todo => (

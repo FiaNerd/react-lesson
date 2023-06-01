@@ -11,7 +11,7 @@ Vi kör vidare med routing och jag vill att ni fortsätter att refaktorera vår 
 
 # Uppgift 2
 
-Lägg till toggle- och delete-funktionalitet (knappar) på den enskilda todo:ns sida. Se till att todo:n laddas om efter att man togglat den!
+✅ Lägg till toggle- och delete-funktionalitet (knappar) på den enskilda todo:ns sida. Se till att todo:n laddas om efter att man togglat den!
 🌟 BONUS: Om man tar bort en todo finns det ju inget att ladda om utan då ska användaren skickas till todo-listan (`/todos`).
 
 
