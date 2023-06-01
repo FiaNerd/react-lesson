@@ -6,7 +6,7 @@ import AddNewTodoForm from '../components/AddNewTodoForm'
 import * as TodosAPI from '../services/TodosAPI'
 
 const TodosPage = () => {
-	const [todos, setTodos] = useState<Todos>([])
+	const [todos, setTodos] = useState<Todos | null>(null)
 
 	// Get todos from api
 	const getTodos = async () => {
@@ -66,8 +66,9 @@ const TodosPage = () => {
 			<h1 className="mb-3">Todos</h1>
 
 			<AddNewTodoForm onAddTodo={addTodo} />
-
-			{todos.length > 0 && (
+            {/* Om du har null i hooken istället för en tom arry, så måste du ha todos här i denna
+            annars kommer det inte funka, den blir en boolean, så om den är null så är den false */}
+			{todos && todos.length > 0 && (
 				<ListGroup className="todolist">
 					{todos.map(todo => (
 						<ListGroup.Item
@@ -83,7 +84,7 @@ const TodosPage = () => {
 				</ListGroup>
 			)}
 
-			{todos.length === 0 && (
+			{todos && todos.length === 0 && (
 				<p>Yayyy, you have 0 todos to do</p>
 			)}
 		</>
