@@ -14,16 +14,6 @@
       "title": "Learn stuff",
       "completed": true,
       "id": 3
-    },
-    {
-      "title": "Learn React useParams",
-      "completed": false,
-      "id": 4
-    },
-    {
-      "title": "test",
-      "completed": false,
-      "id": 5
     }
   ]
 }
