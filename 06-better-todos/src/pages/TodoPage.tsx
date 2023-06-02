@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom';
+
 import { Todo } from '../types'
 import * as TodosAPI from '../services/TodosAPI'
+import ConfirmationModal from '../components/ConfirmationModal';
 
 const TodoPage = () => {
 	const [error, setError] = useState<string|null>(null)
@@ -12,7 +14,7 @@ const TodoPage = () => {
 	const navigate = useNavigate()
 	const { id } = useParams()
 	const todoId = Number(id)
-
+    const [ showConfirm, setShowConfirm] = useState(false)
 	// Get todo from API
 	const getTodo = async (id: number) => {
 		setError(null)
@@ -40,10 +42,10 @@ const TodoPage = () => {
 			return
 		}
 
-        const confirmDelete = window.confirm(`Are you sure you want to delete "${todo.title}"`)
+        // const confirmDelete = window.confirm(`Are you sure you want to delete "${todo.title}"`)
 
     
-        if(confirmDelete) {
+        // if(confirmDelete) {
 
             // Delete todo from the api
             await TodosAPI.deleteTodo(todo.id)
@@ -60,8 +62,17 @@ const TodoPage = () => {
             navigate('/todos?deleted=true', {
                 replace: true,
             })
-        }
+        // }
 	}
+
+
+    const editTodo = () => {
+        if (!todo) {
+          return;
+        }
+        navigate(`/todos/${todo.id}/edit`);
+      };
+
 
 	// Toggle the completed status of a todo in the api
 	const toggleTodo = async (todo: Todo) => {
@@ -109,9 +120,19 @@ const TodoPage = () => {
 
 			<div className="buttons mb-3">
 				<Button variant='success' onClick={() => toggleTodo(todo)}>Toggle</Button>
-				<Button variant='warning'>Edit</Button>
-				<Button variant='danger' onClick={() => deleteTodo(todo)}>Delete</Button>
+				<Button variant='warning' onClick={editTodo}>Edit</Button>
+				<Button variant='danger' onClick={() => setShowConfirm(true)}>Delete</Button>
 			</div>
+
+     
+            <ConfirmationModal
+				show={showConfirm}
+				onCancel={() => setShowConfirm(false)}
+				onConfirm={() => deleteTodo(todo)}
+			>
+				U SURE BRO?!
+			</ConfirmationModal>
+   
 
 			<Link to="/todos">
 				<Button variant='secondary'>&laquo; All todos</Button>

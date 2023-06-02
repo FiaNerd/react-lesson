@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Todo, Todos } from '../types'
+import { Todos } from '../types'
 import Alert from 'react-bootstrap/Alert'
 import ListGroup from 'react-bootstrap/ListGroup'
 import { Link, useLocation, useSearchParams } from 'react-router-dom'
-import AddNewTodoForm from '../components/AddNewTodoForm'
 import AutoDismissingAlert from '../components/AutoDismissingAlert'
 import * as TodosAPI from '../services/TodosAPI'
 
@@ -20,12 +19,6 @@ const TodosPage = () => {
 		setTodos(data)
 	}
 
-	// Create a new todo in the API
-	const addTodo = async (todo: Todo) => {
-		await TodosAPI.createTodo(todo)
-		getTodos()
-	}
-
 	// fetch todos when App is being mounted
 	useEffect(() => {
 		getTodos()
@@ -34,8 +27,6 @@ const TodosPage = () => {
 	return (
 		<>
 			<h1 className="mb-3">Todos</h1>
-
-			<AddNewTodoForm onAddTodo={addTodo} />
 
 			{location.state?.message && (
 				<Alert variant="success">
