@@ -16,6 +16,13 @@ const TodosPage = () => {
 	// Get todos from api
 	const getTodos = async () => {
 		const data = await TodosAPI.getTodos()
+
+        //Sort Aplfabetical, sorterar efter svenska "sv"
+        data.sort((a, b) => a.title.localeCompare(b.title, "sv"))
+
+        // Sort by completed
+        data.sort((a, b) => Number(a.completed) - Number(b.completed))
+
 		setTodos(data)
 	}
 

@@ -6,19 +6,19 @@ import Form from 'react-bootstrap/Form';
 import * as TodosAPI from '../services/TodosAPI';
 
 const EditTodoPage = () => {
-  const [success, setSuccess] = useState<boolean | null>(null);
-  const [title, setTitle] = useState('');
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const todoId = Number(id);
+  const [success, setSuccess] = useState<boolean | null>(null)
+  const [title, setTitle] = useState('')
+  const navigate = useNavigate()
+  const { id } = useParams()
+  const todoId = Number(id)
 
   useEffect(() => {
     const fetchTodo = async () => {
       try {
-        const todo = await TodosAPI.getTodo(todoId);
+        const todo = await TodosAPI.getTodo(todoId)
         setTitle(todo.title);
       } catch (error) {
-        console.error('Error fetching todo:', error);
+        console.error('Error fetching todo:', error)
       }
     };
 
@@ -29,14 +29,15 @@ const EditTodoPage = () => {
     event.preventDefault();
 
     try {
-      await TodosAPI.updateTodo(todoId, { title });
-      setSuccess(true);
+      await TodosAPI.updateTodo(todoId, { title })
+      setSuccess(true)
 
       setTimeout(() => {
-        navigate(`/todos/${todoId}`);
-      }, 2000);
+        navigate(`/todos/${todoId}`)
+      }, 2000)
+
     } catch (error) {
-      console.error('Error updating todo:', error);
+      console.error('Error updating todo:', error)
       setSuccess(false);
     }
   };
@@ -70,7 +71,7 @@ const EditTodoPage = () => {
 
       {success === true && (
         <Alert variant="success" className="mt-3">
-          Todo updated!😊
+          Todo updated!    😊
         </Alert>
       )}
 

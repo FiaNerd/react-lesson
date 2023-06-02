@@ -21,10 +21,10 @@ return (
       <Modal.Body>{children}</Modal.Body>
       <Modal.Footer>
         <Button variant="success" onClick={onCancel}>
-          Close
+          Cancel
         </Button>
         <Button variant="warning" onClick={onConfirm}>
-          Save Changes
+          Comfirm
         </Button>
       </Modal.Footer>
     </Modal>
