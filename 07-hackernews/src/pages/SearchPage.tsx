@@ -1,17 +1,31 @@
 import { useEffect, useRef, useState } from 'react'
 import Button from 'react-bootstrap/Button'
-import {Form, Alert} from 'react-bootstrap'
+import { Form, Alert } from 'react-bootstrap'
 import ListGroup from 'react-bootstrap/ListGroup'
-import {searchByDate as HN_searchByDate} from '../services/HackerNewsAPI' // denna är som alias
+import { useSearchParams } from 'react-router-dom'
+import { searchByDate as HN_searchByDate } from '../services/HackerNewsAPI' // denna är som alias
 import { HN_SearchResponse } from '../types'
+import Pagination from '../components/Pagination'
 
 const SearchPage = () => {
-	const [error, setError] = useState<string|null>(null)
-	const [loading, setLoading] = useState(false)
+	const [ error, setError ] = useState<string|null>(null)
+	const [ loading, setLoading ] = useState(false)
     const [ page, setPage ] = useState(0)
-	const [searchInput, setSearchInput] = useState("")
+	const [ searchInput, setSearchInput ] = useState("")
     const [ searchResult, setSearchResult ] = useState<HN_SearchResponse|null>(null)
-    const queryRef = useRef("")
+    //const queryRef = useRef("") // denna sätts varje gång man gör en ny sökning.
+    // useRef behövs inte längre då vi har serchParams istället
+   
+    // Skcikar in en deafault search param state
+    // allt som sets i url ?=query
+    const [ searchParams, setSearchParams ] = useSearchParams()
+
+    // hämtar ut det som skriva i browsenr ?query= 
+   const query = searchParams.get("query") as string
+
+    console.log("serach params", searchParams);
+    // get() hämtar ut ("") är nuckel
+    // console.log("serach params", searchParams.get("funny"));
 
 
     const searchHackerNews = async (searchQuery: string, searchPage = 0) => {
@@ -21,7 +35,7 @@ const SearchPage = () => {
 
         // Save seacrQuery to queryRef
         // OBS!! Måste ha .current!!
-        queryRef.current = searchQuery
+        // queryRef.current = searchQuery
 
         try {
             const res = await HN_searchByDate(searchQuery, searchPage)
@@ -35,7 +49,6 @@ const SearchPage = () => {
         setLoading(false)
     }
 
-
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault()
 
@@ -47,18 +60,27 @@ const SearchPage = () => {
         // Search Hacker News
         // Går till sida 0 varje gång vi söker på något
         // searchHackerNews(serachInput, 0 )
+        // reste page state
         setPage(0)
-        searchHackerNews(searchInput, 0)
+
+        // set input value as query in searchParams
+        /* { query: searchInput } - den här delen är själva namnet som kommer sedan i 
+        browsern, så man kan döpa den till q eller serach, då syns det i browsern
+        */       
+        setSearchParams({ query: searchInput }) //?query=apple
+
+        // Denna behövs inte heller
+        // searchHackerNews(searchInput, 0)
 	}
 
     // React changes in our page state
     useEffect(() => {
-        if(!queryRef.current){
+        if(!query){
             return
         }
 
-        searchHackerNews(queryRef.current, page)
-    },[page])
+        searchHackerNews(query, page)
+    },[query, page])
 
 	return (
 		<>
@@ -91,7 +113,7 @@ const SearchPage = () => {
 
 {searchResult && (
     <div id="search-result">
-        <p>Showing {searchResult.nbHits} search results for {queryRef.current}...</p>
+        <p>Showing {searchResult.nbHits} search results for "{query}"...</p>
 
         <ListGroup className="mb-3">
             {searchResult.hits.map(hit => (
@@ -108,26 +130,14 @@ const SearchPage = () => {
             ))}
         </ListGroup>
 
-        <div className="d-flex justify-content-between align-items-center">
-            <div className="prev">
-                <Button
-                    variant="primary"
-                    onClick={() => {setPage(prevValue => prevValue - 1)}}
-                    disabled={page <= 0}
-                >Previous Page</Button>
-            </div>
-
-            <div className="page">Page {searchResult.page + 1} / {searchResult.nbPages}</div>
-
-            <div className="next">
-                <Button
-                    variant="primary"
-                    onClick={() => { setPage(prevValue => prevValue + 1) }}
-                    disabled={page + 1 >= searchResult.nbPages}
-                    // onClick={ () => { searchHackerNews(queryRef.current, searchResult.page + 1)}}
-                >Next Page</Button>
-            </div>
-        </div>
+        <Pagination
+			page={searchResult.page + 1}
+			totalPages={searchResult.nbPages}
+			hasPreviousPage={page > 0}
+			hasNextPage={page + 1 < searchResult.nbPages}
+			onPreviousPage={() => { setPage(prevValue => prevValue - 1) }}
+			onNextPage={() => { setPage(prevValue => prevValue + 1) }}
+		/>
     </div>
 )}
 		</>
