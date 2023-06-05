@@ -8,22 +8,23 @@ import { HN_SearchResponse } from '../types'
 const SearchPage = () => {
 	const [error, setError] = useState<string|null>(null)
 	const [loading, setLoading] = useState(false)
+    const [ page, setPage ] = useState(0)
 	const [searchInput, setSearchInput] = useState("")
     const [ searchResult, setSearchResult ] = useState<HN_SearchResponse|null>(null)
     const queryRef = useRef("")
 
 
-    const searchHackerNews = async (searchQuery: string) => {
+    const searchHackerNews = async (searchQuery: string, searchPage = 0) => {
         setError(null) // Nollställer Error
         setLoading(true)
         setSearchResult(null)
 
+        // Save seacrQuery to queryRef
+        // OBS!! Måste ha .current!!
+        queryRef.current = searchQuery
+
         try {
-
-            // Save seacrQuery to queryRef
-            queryRef.current = searchQuery
-
-            const res = await HN_searchByDate(searchQuery)
+            const res = await HN_searchByDate(searchQuery, searchPage)
             setSearchResult(res)
             
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -46,8 +47,18 @@ const SearchPage = () => {
         // Search Hacker News
         // Går till sida 0 varje gång vi söker på något
         // searchHackerNews(serachInput, 0 )
-        searchHackerNews(searchInput)
+        setPage(0)
+        searchHackerNews(searchInput, 0)
 	}
+
+    // React changes in our page state
+    useEffect(() => {
+        if(!queryRef.current){
+            return
+        }
+
+        searchHackerNews(queryRef.current, page)
+    },[page])
 
 	return (
 		<>
@@ -101,14 +112,19 @@ const SearchPage = () => {
             <div className="prev">
                 <Button
                     variant="primary"
+                    onClick={() => {setPage(prevValue => prevValue - 1)}}
+                    disabled={page <= 0}
                 >Previous Page</Button>
             </div>
 
-            <div className="page">PAGE</div>
+            <div className="page">Page {searchResult.page + 1} / {searchResult.nbPages}</div>
 
             <div className="next">
                 <Button
                     variant="primary"
+                    onClick={() => { setPage(prevValue => prevValue + 1) }}
+                    disabled={page + 1 >= searchResult.nbPages}
+                    // onClick={ () => { searchHackerNews(queryRef.current, searchResult.page + 1)}}
                 >Next Page</Button>
             </div>
         </div>
