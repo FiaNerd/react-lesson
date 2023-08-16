@@ -25,7 +25,7 @@ const App = () => {
         {/* Kör först i terminalen 
         npm i @tanstack/react-query-devtools  
         Sedan länka in denna så du får fram devTools i webbläsaren*/}
-        <ReactQueryDevtools />
+        <ReactQueryDevtools initialIsOpen={false} position="bottom-right"/>
     </div>
   )
 }

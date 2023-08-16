@@ -5,15 +5,18 @@
  * API: https://api.thecatapi.com/v1/
  */
 import axios from 'axios';
-import { CatResponseTypes } from "../types/CatTypes.types";
+import { CatResponse } from "../types/TheCatApi.types";
 
 const FAKE_DELAY = 15000
 
 // Create a new axios instance
 /* Skapande av axios-instans: Du använder axios.create() för att skapa en ny instans av axios med den konfiguration som du specificerar som ett objekt. */
+/* 
+    Skapa en axios instans, som man kan använda överallt det behövs inte med det är rekomenderat!
+*/
 const apiCats = axios.create({
     baseURL: 'https://api.thecatapi.com/v1/',
-    timeout: 1000,
+    timeout: 10000,
     // headers: {
     //     "Content-type": "application/json",
     // },
@@ -32,17 +35,29 @@ const apiCats = axios.create({
     
     return response.data
 } */
-
-const get = async <T> (endpoint: string) => {
+/* 
+    GET request (behövs inte egentligen, men bra att använda det)
+*/
+// <T> = Type parameter - så kan den ta emot vad som helst. Skickar in något som ska komma tillbaka i samma typ
+const get = async <T>(endpoint: string) => {
     const response = await apiCats.get<T>(endpoint)
+
+    // Simulate a delay
     !!FAKE_DELAY && await new Promise(x => setTimeout(x, FAKE_DELAY))
-    
+
     return response.data
 }
 
 export const getRandomCatImage = async () => {
- const data = await get<CatResponseTypes>("images/search")
 
+    // Här använder man den get funktionen som finns ovanför
+    // Måste ge den en type paramets, i detta fall CatResponseTypes, annars 
+    // blir det unkown då den inte vet vad som skickas in utan T parameter
+ const data = await get<CatResponse>("images/search")
+
+ console.log(data)
+
+ // Föväntar sig att alltid få tillbaka en katt med [0]
  return data[0]
 }
 
@@ -52,7 +67,8 @@ export const getRandomCatImage = async () => {
 export const getRandomCatImages = async (qty: number = 1) => {
     const queryParams = `?limit=${qty}`;
 
-    const data = await get<CatResponseTypes>("images/search" + queryParams);
+    const data = await get<CatResponse>("images/search" + queryParams);
 
     return data
 } 
+

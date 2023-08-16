@@ -1,12 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import {getRandomCatImage} from '../services/TheCatApi'
-import Image from 'react-bootstrap/Image'
+// import Image from 'react-bootstrap/Image'
+import { Alert, Image } from "react-bootstrap";
+import { Cat } from "../types/TheCatApi.types";
+// import { CatTypes } from "../types/TheCatApi";
 
 const RandomCatPage = () => {
 
-    const { data } = useQuery(
-        ['random-cats', getRandomCatImage ], 
-      );
+    const { data, error } = useQuery(['random-cat'], getRandomCatImage)
+
+
+      if(error) {
+        return <Alert variant="error">Oop! There is an error</Alert>
+      }
 
 
   return (
@@ -14,9 +20,9 @@ const RandomCatPage = () => {
       <h1>I 🖤 Random Cat page</h1>
       <p>A random cat page for random cats</p>
  
- {data && (
-    <Image src={data.url} alt="Random Cat Image" />
- )}
+    {data && (
+        <Image src={data.url} alt="Random Cat Image" fluid/>
+    )}
     </>
   );
 }
