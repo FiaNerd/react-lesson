@@ -6,4 +6,4 @@ export type CatTypes = {
 }
 
 /* Genom att använda catResponseTypes, som helt enkelt är en array av Cat-objekt, kan du på ett enkelt sätt ange hur svaret från API:et bör se ut. */
-export type catResponseTypes = CatTypes[]
+export type CatResponseTypes =  CatTypes[]

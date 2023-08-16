@@ -5,6 +5,7 @@ import Navigation from './pages/partials/Navigation'
 import HomePage from './pages/HomePage'
 import PageNotFound from './pages/PageNotFound'
 import RandomCatPage from './pages/RandomCatPage'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const App = () => {
 
@@ -20,6 +21,11 @@ const App = () => {
                 <Route path='*' element={<PageNotFound />} />
             </Routes>
         </Container>
+
+        {/* Kör först i terminalen 
+        npm i @tanstack/react-query-devtools  
+        Sedan länka in denna så du får fram devTools i webbläsaren*/}
+        <ReactQueryDevtools />
     </div>
   )
 }
