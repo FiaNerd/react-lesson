@@ -18,6 +18,7 @@ const Navigation = () => {
             {/* Ändra denna från Nav.Link från bootstrap till NavLink från react-router-dom (Detta för att <a /> länkar laddar om sidan, det gör det inte när man sätter to="") och samma här, ändra från href="/" till to="istället" */}
             <Nav.Link as={NavLink} to="/"> Home </Nav.Link>
            <Nav.Link as={NavLink} to="/random-cat">Random Cat</Nav.Link>
+           <Nav.Link as={NavLink} to="/hacker-news">Hacker News</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
