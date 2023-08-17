@@ -6,12 +6,15 @@ import HomePage from './pages/HomePage'
 import PageNotFound from './pages/PageNotFound'
 import RandomCatPage from './pages/RandomCatPage'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import GlobalFetchingSpinner from './components/GlobalFetchingSpinner'
 
 const App = () => {
 
   return (
     <div id='App'>
         <Navigation />
+
+        <GlobalFetchingSpinner />
 
         <Container className='py-3'>
             <Routes>

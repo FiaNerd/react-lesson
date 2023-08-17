@@ -22,7 +22,7 @@ const RandomCatPage = () => {
         // För att kunna uppdatera bilderna så måste man lägga in ett id ockskå.. sök på Dynamic Parallel Queries with useQueries, så kommer mer info fram
         queryKey: ['random-cat', selectedBreed], 
         queryFn: () =>  getRandomCatByBreed(selectedBreed),
-        staleTime: 5 * 10000,
+        cacheTime: 7500,
     })
 
       if(error) {
