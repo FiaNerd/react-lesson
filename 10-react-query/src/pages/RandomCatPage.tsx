@@ -2,6 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import {getRandomCatByBreed} from '../services/TheCatApi'
 import { Alert, Button, ButtonGroup, Image } from "react-bootstrap";
 import { useState } from "react";
+import { Breed } from "../types/TheCatApi.types";
+
+const breeds: Breed[] = [
+	{ id: '', name: 'Any' },
+	{ id: 'ragd', name: 'Ragdoll' },
+	{ id: 'sibe', name: 'Siberian' },
+	{ id: 'beng', name: 'Bengal' },
+	{ id: 'pers', name: 'Persian' },
+	{ id: 'norw', name: 'Norwegian Forest' },
+]
 
 const RandomCatPage = () => {
 
@@ -11,9 +21,8 @@ const RandomCatPage = () => {
     const { data, error, isFetching, refetch } = useQuery({
         // För att kunna uppdatera bilderna så måste man lägga in ett id ockskå.. sök på Dynamic Parallel Queries with useQueries, så kommer mer info fram
         queryKey: ['random-cat', selectedBreed], 
-        queryFn: () => {
-            return getRandomCatByBreed(selectedBreed);
-        }
+        queryFn: () =>  getRandomCatByBreed(selectedBreed),
+        staleTime: 5 * 10000,
     })
 
       if(error) {
@@ -41,10 +50,17 @@ const RandomCatPage = () => {
                 </Button>
 
                 <ButtonGroup className="ms-2">
-                    <Button variant="secondary" onClick={() => setSelectedBreed("")}>Any</Button><Button variant="secondary" onClick={() => setSelectedBreed("ragd")}>Ragdoll</Button>
-                    <Button variant="secondary" onClick={() => setSelectedBreed("sibe")}>Siberian</Button>
-                    <Button variant="secondary" onClick={() => setSelectedBreed("beng")}>RanBengalgdoll</Button>
-                </ButtonGroup> 
+						{breeds.map(breed => (
+							<Button
+								key={breed.id}
+								disabled={isFetching || selectedBreed === breed.id}
+								onClick={() => setSelectedBreed(breed.id)}
+								variant="secondary"
+							>
+								{breed.name}
+							</Button>
+						))}
+					</ButtonGroup>
             </div>
         </div>
     </>
