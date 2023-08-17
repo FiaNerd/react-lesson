@@ -48,6 +48,9 @@ const get = async <T>(endpoint: string) => {
     return response.data
 }
 
+/*
+    GET  Random Cat Image
+ */
 export const getRandomCatImage = async () => {
 
     // Här använder man den get funktionen som finns ovanför
@@ -55,7 +58,21 @@ export const getRandomCatImage = async () => {
     // blir det unkown då den inte vet vad som skickas in utan T parameter
  const data = await get<CatResponse>("images/search")
 
- console.log(data)
+ // Föväntar sig att alltid få tillbaka en katt med [0]
+ return data[0]
+}
+
+/**
+ * Get a random cat image by breed.
+ *
+ * @param {string} breed_id The ID of the breed.
+ */
+export const getRandomCatByBreed = async (breed_id = "") => {
+
+    // Här använder man den get funktionen som finns ovanför
+    // Måste ge den en type paramets, i detta fall CatResponseTypes, annars 
+    // blir det unkown då den inte vet vad som skickas in utan T parameter
+ const data = await get<CatResponse>("images/search?breed_ids=" + breed_id)
 
  // Föväntar sig att alltid få tillbaka en katt med [0]
  return data[0]
@@ -71,4 +88,5 @@ export const getRandomCatImages = async (qty: number = 1) => {
 
     return data
 } 
+
 
