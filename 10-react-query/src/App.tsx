@@ -7,7 +7,7 @@ import PageNotFound from './pages/PageNotFound'
 import RandomCatPage from './pages/RandomCatPage'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import GlobalFetchingSpinner from './components/GlobalFetchingSpinner'
-import SearchHackerNews from './pages/SearchHackerNews'
+import SearchHNPage from './pages/SearchHNPage'
 
 const App = () => {
 
@@ -21,7 +21,7 @@ const App = () => {
             <Routes>
                 <Route path='/' element={<HomePage />} />
                 <Route path='/random-cat' element={<RandomCatPage />} />
-                <Route path="/hacker-news" element={<SearchHackerNews />} />
+                <Route path="/hacker-news" element={<SearchHNPage />} />
                 <Route path='*' element={<PageNotFound />} />
             </Routes>
         </Container>
