@@ -7,7 +7,7 @@
 import axios from 'axios';
 import { CatResponse } from "../types/TheCatApi.types";
 
-const FAKE_DELAY = 15000
+const FAKE_DELAY = 1500
 
 // Create a new axios instance
 /* Skapande av axios-instans: Du använder axios.create() för att skapa en ny instans av axios med den konfiguration som du specificerar som ett objekt. */

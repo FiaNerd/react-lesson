@@ -6,14 +6,13 @@ import { Alert, Button, Image } from "react-bootstrap";
 const RandomCatPage = () => {
 
     // refetch = det enda den gör att att den kör queryn på nytt oavsett om det behövs eller inte, den ignronenr eventuel stale time. Mne den tar inte bort dne från cashen
-    const { data, error, refetch } = useQuery(['random-cat'], getRandomCatImage)
+    const { data, error, isLoading, refetch } = useQuery(['random-cat'], getRandomCatImage)
 
-
+console.log(isLoading)
       if(error) {
         return <Alert variant="error">Oop! There is an error</Alert>
       }
-
-
+      
   return (
     <>
       <h1>I 🖤 Random Cat page</h1>
@@ -26,9 +25,13 @@ const RandomCatPage = () => {
     )}
 
         <div className="mb-3">
-            <Button 
-                variant="primary"
-                onClick={() => refetch()}>Load cats</Button>
+                <Button
+                    variant="primary"
+                    onClick={() => refetch()}
+                    disabled={isLoading}
+                    >
+                    {isLoading ? "Loading..." : "Load cats"}
+                </Button>
         </div>
     </>
   );
