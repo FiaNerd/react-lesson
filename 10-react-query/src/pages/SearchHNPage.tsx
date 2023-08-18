@@ -6,9 +6,10 @@ import Form from 'react-bootstrap/Form'
 import ListGroup from 'react-bootstrap/ListGroup'
 import { useSearchParams } from 'react-router-dom'
 import { searchByDate as HN_searchByDate } from '../services/TheHackerNewsApi'
+import Pagination from '../components/Pagination'
 
 const SearchHNPage = () => {
-	// const [page, setPage] = useState(0)
+	const [page, setPage] = useState(0)
 	const [searchInput, setSearchInput] = useState("")
 	const [searchParams, setSearchParams] = useSearchParams()
 
@@ -16,12 +17,21 @@ const SearchHNPage = () => {
 	const query = searchParams.get("query") ?? ""
 
 	const { data: searchResult, isError } = useQuery(
-		['search-hn', query],
-		() => HN_searchByDate(query),
+		['search-hn', { query, page }],
+		() => HN_searchByDate(query, page),
 		{
 			enabled: !!query,
+            keepPreviousData: true,
 		}
 	)
+    
+    // const { data: searchResult, isError } = useQuery(
+	// 	['search-hn', query],
+	// 	() => HN_searchByDate(query),
+	// 	{
+	// 		enabled: !!query,
+	// 	}
+	// )
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault()
@@ -32,7 +42,7 @@ const SearchHNPage = () => {
 		}
 
 		// reset page state
-		// setPage(0)
+		setPage(0)
 
 		// set input value as query in searchParams
 		setSearchParams({ query: searchInput })    // ?query=tesla
@@ -83,14 +93,14 @@ const SearchHNPage = () => {
             ))}
             </ListGroup>
 
-					{/* <Pagination
+					<Pagination
 						page={searchResult.page + 1}
 						totalPages={searchResult.nbPages}
 						hasPreviousPage={page > 0}
 						hasNextPage={page + 1 < searchResult.nbPages}
 						onPreviousPage={() => { setPage(prevValue => prevValue - 1) }}
 						onNextPage={() => { setPage(prevValue => prevValue + 1) }}
-					/> */}
+					/>
 				</div>
 			)}
 		</>
