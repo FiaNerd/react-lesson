@@ -1,4 +1,5 @@
 import Container from 'react-bootstrap/Container'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Routes, Route } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import CreateTodoPage from './pages/CreateTodoPage'
@@ -35,6 +36,8 @@ const App = () => {
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</Container>
+
+            <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
 		</div>
 	)
 }

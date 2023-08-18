@@ -2,7 +2,7 @@
   "todos": [
     {
       "title": "Learn React Bootstrap",
-      "completed": false,
+      "completed": true,
       "id": 1
     },
     {
@@ -17,13 +17,18 @@
     },
     {
       "title": "Look mommy, a todo 🤩!",
-      "completed": true,
+      "completed": false,
       "id": 4
     },
     {
       "title": "I <3 TypeScript",
-      "completed": false,
+      "completed": true,
       "id": 6
+    },
+    {
+      "title": "test",
+      "completed": false,
+      "id": 7
     }
   ]
 }

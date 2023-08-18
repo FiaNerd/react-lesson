@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { Todo } from '../types'
+import { Todo } from '../types/index.types'
 import * as TodosAPI from '../services/TodosAPI'
 import ConfirmationModal from '../components/ConfirmationModal'
+import { useQuery } from '@tanstack/react-query'
 
 const TodoPage = () => {
 	const [error, setError] = useState<string|null>(null)
@@ -15,6 +16,9 @@ const TodoPage = () => {
 	const { id } = useParams()
 	const todoId = Number(id)
 
+    const { data } = useQuery(['todo', TodosAPI.getTodo])
+
+    console.log(data)
 	// Get todo from API
 	const getTodo = async (id: number) => {
 		setError(null)
@@ -22,10 +26,10 @@ const TodoPage = () => {
 
 		try {
 			// call TodosAPI
-			const data = await TodosAPI.getTodo(id)
+			// const data = await TodosAPI.getTodo(id)
 
 			// update todo state with data
-			setTodo(data)
+			// setTodo(data)
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
